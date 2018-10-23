@@ -39,7 +39,7 @@ public class DemoApplication extends Application {
         IBoxingMediaLoader loader = new BoxingFrescoLoader(this);
         BoxingMediaLoader.getInstance().init(loader);
         BoxingCrop.getInstance().init(new BoxingUcrop());
-        bindService(new Intent(getApplicationContext(), FaceService.class),connection,BIND_AUTO_CREATE);
+        bindService(new Intent(getApplicationContext(), FaceService.class), connection, BIND_AUTO_CREATE);
         NetworkUtils.init(getApplicationContext());
     }
 
