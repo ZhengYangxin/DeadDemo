@@ -9,8 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
-import com.android.volley.VolleyError;
-import com.moos.library.CircleProgressView;
 
 import org.zsq.VO.InstanceResponseVO;
 import org.zsq.playcamera.R;
@@ -19,11 +17,9 @@ import org.zsq.util.ConfigUrl;
 import org.zsq.util.NetworkUtils;
 import org.zsq.view.ProgressBox;
 import org.zsq.view.cloudtag.KeywordsFlow;
-import org.zsq.view.cloudtag.SearchDataPojo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 

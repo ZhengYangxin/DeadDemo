@@ -13,8 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,7 +27,7 @@ import com.arcsoft.library.database.module.Face;
 import com.squareup.picasso.Picasso;
 
 import org.apmem.tools.layouts.FlowLayout;
-import org.zsq.fragment.ShopCarDialogFragment;
+import org.zsq.dialog.ShopCarDialogFragment;
 import org.zsq.playcamera.R;
 import org.zsq.util.NetworkUtils;
 import org.zsq.view.CustomPopupWindow;

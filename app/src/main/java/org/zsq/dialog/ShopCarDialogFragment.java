@@ -1,4 +1,4 @@
-package org.zsq.fragment;
+package org.zsq.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
