@@ -25,11 +25,12 @@ public class Face {
     public static final String NAME = "name";
     public static final String FEATURE = "feature";
     public static final String PATH = "path";
+    public static final String PHONE = "phone";
 
     private Context context;
 
     private Integer id;
-    private String name, path, mFeature;
+    private String name, path, mFeature, phone;
 
 
     public Face(Context context) {
@@ -46,6 +47,7 @@ public class Face {
             setName(cursor.getString(columnNamesList.indexOf(NAME)), false);
             setFeature(cursor.getString(columnNamesList.indexOf(FEATURE)), false);
             setPath(cursor.getString(columnNamesList.indexOf(PATH)), false);
+            setPhone(cursor.getString(columnNamesList.indexOf(PHONE)), false);
         }
         cursor.close();
         close();
@@ -67,6 +69,7 @@ public class Face {
                 setName(cursor.getString(columnNamesList.indexOf(NAME)), false);
                 setFeature(cursor.getString(columnNamesList.indexOf(FEATURE)), false);
                 setPath(cursor.getString(columnNamesList.indexOf(PATH)), false);
+                setPhone(cursor.getString(columnNamesList.indexOf(PHONE)), false);
             }
             cursor.close();
             close();
@@ -95,6 +98,7 @@ public class Face {
                 setName(cursor.getString(columnNamesList.indexOf(NAME)), false);
                 setFeature(cursor.getString(columnNamesList.indexOf(FEATURE)), false);
                 setPath(cursor.getString(columnNamesList.indexOf(PATH)), false);
+                setPhone(cursor.getString(columnNamesList.indexOf(PHONE)), false);
             }
             cursor.close();
         }
@@ -207,4 +211,23 @@ public class Face {
         close();
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        setPhone(phone, true);
+    }
+
+    public void setPhone(String phone, Boolean updateDB) {
+        this.phone = phone;
+
+        if (updateDB) {
+            ContentValues values = new ContentValues();
+            values.put(Face.PHONE, phone);
+            open();
+            database.update(FaceDataBaseHelp.TABLE_FACE, values, Face.ID + "=?", new String[]{Long.toString(getId())});
+            close();
+        }
+    }
 }

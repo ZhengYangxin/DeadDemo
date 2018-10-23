@@ -11,7 +11,6 @@ import android.util.Base64;
 import com.arcsoft.facedetection.AFD_FSDKFace;
 import com.arcsoft.facetracking.AFT_FSDKFace;
 import com.arcsoft.library.database.module.Face;
-import com.arcsoft.library.module.ArcsoftFace;
 import com.arcsoft.library.module.FaceData;
 import com.arcsoft.library.module.FaceResponse;
 
@@ -67,7 +66,7 @@ public class FaceService extends Service {
         this.thresholdValue = thresholdValue;
     }
 
-    public boolean enroll(String path, String name) {
+    public boolean enroll(String path, String name, String phone) {
         FaceData data = manager.decodePath(path);
         if (data != null) {
             List<AFD_FSDKFace> list = manager.fdDetection(data);
@@ -81,6 +80,7 @@ public class FaceService extends Service {
                         values.put(Face.NAME, name);
                         values.put(Face.FEATURE, Base64.encodeToString(feature, Base64.DEFAULT));
                         values.put(Face.PATH, path);
+                        values.put(Face.PHONE, phone);
                         new Face(FaceService.this, values);
                         return true;
                     }

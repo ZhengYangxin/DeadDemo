@@ -175,8 +175,8 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback 
                     canvas.drawRect(r, m_Paint);
                     canvas.drawText("" + score, r.left, r.top - 20, m_Paint);
                     canvas.drawText(name, r.left, r.top - 60, m_Paint);
-                    if (score > 0.5) {
-
+                    if (score > 0.6) {
+                        dishFragment.initSearchHistory();
                     }
                 }
             } catch (Exception Ex) {

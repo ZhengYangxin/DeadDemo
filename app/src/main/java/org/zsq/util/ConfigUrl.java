@@ -8,4 +8,5 @@ package org.zsq.util;
 public class ConfigUrl {
     public static String GET_USERS = "http://10.1.130.61:8080/recommend/users/1";
     public static String GET_INSTANCES = "http://10.1.130.61:8080/recommend/instances/1";
+    public static String GET_REGISTER = "http://10.1.130.61:8080/user/mobile/";
 }
