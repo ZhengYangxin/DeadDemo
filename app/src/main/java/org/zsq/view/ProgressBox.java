@@ -49,7 +49,8 @@ public class ProgressBox implements IProgressBox {
         context.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                progressView.setVisibility(View.INVISIBLE);
+                progressView.setVisibility(View.GONE);
+                loadingView.stopNestedScroll();
             }
         });
     }
