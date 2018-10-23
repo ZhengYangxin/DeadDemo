@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.alibaba.fastjson.TypeReference;
 import com.arcsoft.library.FaceService;
 import com.arcsoft.library.database.module.Face;
 import com.arcsoft.library.module.FaceResponse;
@@ -23,7 +22,7 @@ import com.squareup.picasso.Picasso;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.zsq.VO.InstanceResponseVO;
+import org.zsq.VO.RegisterVo;
 import org.zsq.app.DemoApplication;
 import org.zsq.playcamera.R;
 import org.zsq.util.BaseCallBackListen;
@@ -76,6 +75,7 @@ public class EnrollActivity extends BaseActivity {
                 path = face.getPath();
                 Picasso.with(this).load(new File(face.getPath())).into(imageView);
                 editText.setText(face.getName());
+                phoneEditText.setText(face.getPhone());
             } else {
                 btnChange.setVisibility(View.GONE);
                 btnDelete.setVisibility(View.GONE);
@@ -119,7 +119,6 @@ public class EnrollActivity extends BaseActivity {
             if (!TextUtils.isEmpty(path) && !TextUtils.isEmpty(name)) {
                 face.setPath(path, true);
                 face.setName(name, true);
-                face.setPhone(phone, true);
                 showSuccess("成功", "");
             } else {
                 showError("错误", "未添加人脸或者姓名");
@@ -202,9 +201,9 @@ public class EnrollActivity extends BaseActivity {
             Log.e("Tag","成功：" + event.getType());
             if(event.getType() == FaceResponse.FaceType.RECOGNITION){
                 String phone = phoneEditText.getText().toString();
-                NetworkUtils.get(progressBox, ConfigUrl.GET_REGISTER + phone, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(this) {
+                NetworkUtils.get(progressBox, ConfigUrl.GET_REGISTER + phone, RegisterVo.class, new BaseCallBackListen<RegisterVo>(this) {
                     @Override
-                    public void onResponse(List<InstanceResponseVO> data) {
+                    public void onResponse(RegisterVo data) {
 
                     }
 
