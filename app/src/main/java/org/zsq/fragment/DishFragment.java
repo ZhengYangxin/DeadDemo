@@ -3,13 +3,12 @@ package org.zsq.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
-import org.zsq.adapter.ContentAdapter;
 import org.zsq.playcamera.R;
 
 import butterknife.BindView;
@@ -22,21 +21,19 @@ import butterknife.Unbinder;
  * author : pielan
  */
 
-public class ContentFragment extends Fragment {
+public class DishFragment extends Fragment {
 
     @BindView(R.id.content_list)
     RecyclerView contentList;
     Unbinder unbinder;
+    @BindView(R.id.tv_notify)
+    TextView notify;
 
-    public ContentFragment() {
+    public DishFragment() {
     }
 
-    public static Fragment newInstance(String title, int position) {
-        Bundle args = new Bundle();
-        args.putString("title", title);
-        args.putInt("position", position);
-        ContentFragment fragment = new ContentFragment();
-        fragment.setArguments(args);
+    public static DishFragment newInstance() {
+        DishFragment fragment = new DishFragment();
         return fragment;
     }
 
@@ -45,8 +42,8 @@ public class ContentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recommend, container, false);
 //        initToolbar(view);
-        initRecyclerView(view);
         unbinder = ButterKnife.bind(this, view);
+        initRecyclerView(view);
         return view;
     }
 
@@ -56,8 +53,9 @@ public class ContentFragment extends Fragment {
 //    }
 
     private void initRecyclerView(View view) {
-        contentList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        contentList.setAdapter(new ContentAdapter());
+//        contentList.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        contentList.setAdapter(new ContentAdapter());
+//        notify.setText(getPosition() + "");
     }
 
     public String getTitle() {
