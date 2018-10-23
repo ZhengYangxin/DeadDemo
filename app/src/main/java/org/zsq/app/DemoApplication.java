@@ -2,6 +2,7 @@ package org.zsq.app;
 
 import android.app.Application;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
@@ -20,6 +21,7 @@ import org.zsq.util.NetworkUtils;
  *
  */
 public class DemoApplication extends Application {
+    private static DemoApplication mContext;
     private FaceService faceService;
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -33,9 +35,19 @@ public class DemoApplication extends Application {
         }
     };
 
+    /**
+     * 获取上下文对象
+     *
+     * @return
+     */
+    public static DemoApplication getAppContext() {
+        return mContext;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        mContext = this;
         IBoxingMediaLoader loader = new BoxingFrescoLoader(this);
         BoxingMediaLoader.getInstance().init(loader);
         BoxingCrop.getInstance().init(new BoxingUcrop());
