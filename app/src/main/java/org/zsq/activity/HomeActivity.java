@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,20 +28,38 @@ import org.zsq.playcamera.R;
 
 import java.io.File;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * Created by Administrator on 2017/8/2.
  */
 
 public class HomeActivity extends BaseActivity {
     FlowLayout iconList;
+    @BindView(R.id.msc_toolbar)
+    Toolbar mscToolbar;
+    @BindView(R.id.thingsGridContainer)
+    FlowLayout thingsGridContainer;
+    @BindView(R.id.btn_shop_car)
+    FloatingActionButton btnShopCar;
+    @BindView(R.id.navigation_view)
+    NavigationView navigationView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
         iconList = (FlowLayout) findViewById(R.id.thingsGridContainer);
         titleString = "主页";
-        showItem();
+    }
+
+    @OnClick(R.id.btn_shop_car) void shopCar() {
+        Toast.makeText(getBaseContext(), "购物车", Toast.LENGTH_LONG).show();
     }
 
     private void showItem() {
@@ -135,7 +157,7 @@ public class HomeActivity extends BaseActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startCameraActivity();
                 } else {
-                    Toast.makeText(HomeActivity.this,"由于相机权限未打开,无法进行识别。请去设置界面手动打开",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HomeActivity.this, "由于相机权限未打开,无法进行识别。请去设置界面手动打开", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
