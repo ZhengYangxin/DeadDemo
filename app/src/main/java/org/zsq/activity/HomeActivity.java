@@ -26,6 +26,7 @@ import com.arcsoft.library.database.module.Face;
 import com.squareup.picasso.Picasso;
 
 import org.apmem.tools.layouts.FlowLayout;
+import org.zsq.fragment.ShopCarDialogFragment;
 import org.zsq.playcamera.R;
 import org.zsq.util.NetworkUtils;
 
@@ -67,7 +68,7 @@ public class HomeActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NetworkUtils.get("http://www.baidu.com", String.class, new NetworkUtils.CallBackListen<String>() {
+                NetworkUtils.get("http://10.1.130.61:8080/user/1", String.class, new NetworkUtils.CallBackListen<String>() {
 
                     @Override
                     public void onResponse(String data) {
@@ -85,7 +86,9 @@ public class HomeActivity extends BaseActivity {
 
     @OnClick(R.id.btn_shop_car)
     void shopCar() {
-        Toast.makeText(getBaseContext(), "购物车", Toast.LENGTH_LONG).show();
+        ShopCarDialogFragment shopCarDialogFragment = ShopCarDialogFragment.getInstance();
+        shopCarDialogFragment.setCancelable(true);
+        shopCarDialogFragment.show(getSupportFragmentManager(), "shopCar");
     }
 
     private void showItem() {

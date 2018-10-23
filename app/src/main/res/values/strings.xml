@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PlayCamera_V1.0.0</string>
+    <string name="app_name">死亡三小</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="match">匹配度%1$s</string>
+    <string name="invite_eat">邀请一起吃饭~</string>
+    <string name="shop_car_title">人头购物车</string>
 
 </resources>
