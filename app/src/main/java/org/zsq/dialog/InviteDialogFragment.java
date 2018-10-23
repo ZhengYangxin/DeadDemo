@@ -1,4 +1,4 @@
-package org.zsq.fragment;
+package org.zsq.dialog;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 
 import org.zsq.playcamera.R;
