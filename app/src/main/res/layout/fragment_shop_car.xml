@@ -14,6 +14,19 @@
             android:text="@string/shop_car_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/select_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="15dp"
+            android:text="全选"
+            android:textColor="#ffffff"
+            android:textSize="15sp"/>
     </RelativeLayout>
     <FrameLayout
         android:layout_width="match_parent"
@@ -25,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:cacheColorHint="@null"
-            android:scrollbars="vertical"/>
+            android:scrollbars="none"
+            />
     </FrameLayout>
     <LinearLayout
         android:id="@+id/ll_mycollection_bottom_dialog"
@@ -42,7 +56,6 @@
             android:background="#e5e5e5"/>
 
         <RelativeLayout
-
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="#ffffff">
@@ -70,27 +83,29 @@
 
             <Button
                 android:id="@+id/btn_delete"
-                android:layout_width="80dp"
+                android:layout_width="60dp"
                 android:layout_height="33dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
                 android:gravity="center"
                 android:text="删除"
-                android:textColor="#b7b8bd"
-                android:textSize="14sp"/>
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:background="@color/drawer_color"/>
 
             <TextView
-                android:id="@+id/select_all"
-                android:layout_width="80dp"
+                android:id="@+id/btn_sure"
+                android:layout_width="60dp"
                 android:layout_height="33dp"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="15dp"
                 android:layout_toLeftOf="@+id/btn_delete"
                 android:gravity="center"
-                android:text="全选"
-                android:textColor="#000001"
-                android:textSize="14sp"/>
+                android:text="邀请"
+                android:textColor="#ffffff"
+                android:textSize="14sp"
+                android:background="@color/drawer_color"/>
 
         </RelativeLayout>
     </LinearLayout>

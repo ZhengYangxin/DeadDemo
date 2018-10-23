@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -38,7 +37,7 @@ import butterknife.Unbinder;
  * author : pielan
  */
 
-public class ShopCarDialogFragment extends DialogFragment implements View.OnClickListener, MineRadioAdapter.OnItemClickListener{
+public class ShopCarDialogFragment extends DialogFragment implements View.OnClickListener, MineRadioAdapter.OnItemClickListener {
 
     private static final int MYLIVE_MODE_CHECK = 0;
     private static final int MYLIVE_MODE_EDIT = 1;
@@ -54,12 +53,13 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
     @BindView(R.id.ll_mycollection_bottom_dialog)
     LinearLayout mLlMycollectionBottomDialog;
     Unbinder unbinder;
+    @BindView(R.id.btn_sure)
+    TextView btnSure;
 
     private MineRadioAdapter mRadioAdapter = null;
     private LinearLayoutManager mLinearLayoutManager;
     private List<MyLiveList> mList = new ArrayList<>();
     private boolean isSelectAll = false;
-    private boolean editorStatus = false;
     private int mEditMode = MYLIVE_MODE_EDIT;
     private int index = 0;
 
@@ -92,10 +92,12 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
         mRadioAdapter = new MineRadioAdapter(getContext());
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mRecyclerview.setLayoutManager(mLinearLayoutManager);
-        mRadioAdapter.setEditMode(mEditMode);
         DividerItemDecoration itemDecorationHeader = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
 //        itemDecorationHeader.setDividerDrawable(ContextCompat.getDrawable(this, R.drawable.divider_main_bg_height_1));
         mRecyclerview.addItemDecoration(itemDecorationHeader);
+        mLlMycollectionBottomDialog.setVisibility(View.VISIBLE);
+        mRadioAdapter.setEditMode(mEditMode);
+
         mRecyclerview.setAdapter(mRadioAdapter);
         for (int i = 0; i < 30; i++) {
             MyLiveList myLiveList = new MyLiveList();
@@ -104,6 +106,18 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
             mList.add(myLiveList);
             mRadioAdapter.notifyAdapter(mList, false);
         }
+//        updataEditMode();
+    }
+
+    private void updataEditMode() {
+//        mEditMode = mEditMode == MYLIVE_MODE_CHECK ? MYLIVE_MODE_EDIT : MYLIVE_MODE_CHECK;
+        if (mEditMode == MYLIVE_MODE_EDIT) {
+            mLlMycollectionBottomDialog.setVisibility(View.VISIBLE);
+        } else {
+            mLlMycollectionBottomDialog.setVisibility(View.GONE);
+            clearAll();
+        }
+        mRadioAdapter.setEditMode(mEditMode);
     }
 
     /**
@@ -113,13 +127,19 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
      */
     private void setBtnBackground(int size) {
         if (size != 0) {
-            mBtnDelete.setBackgroundResource(R.color.drawer_color);
+            btnSure.setBackgroundResource(R.color.colorAccent);
+            btnSure.setEnabled(true);
+            btnSure.setTextColor(Color.WHITE);
+            mBtnDelete.setBackgroundResource(R.color.colorAccent);
             mBtnDelete.setEnabled(true);
             mBtnDelete.setTextColor(Color.WHITE);
         } else {
-            mBtnDelete.setBackgroundResource(R.color.colorAccent);
+            mBtnDelete.setBackgroundResource(R.color.drawer_color);
             mBtnDelete.setEnabled(false);
-            mBtnDelete.setTextColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
+            mBtnDelete.setTextColor(Color.WHITE);
+            btnSure.setBackgroundResource(R.color.drawer_color);
+            btnSure.setEnabled(false);
+            btnSure.setTextColor(Color.WHITE);
         }
     }
 
@@ -127,16 +147,22 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
         mRadioAdapter.setOnItemClickListener(this);
         mBtnDelete.setOnClickListener(this);
         mSelectAll.setOnClickListener(this);
+        btnSure.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_delete:
                 deleteVideo();
                 break;
             case R.id.select_all:
                 selectAllMain();
+                break;
+            case R.id.btn_sure:
+                InviteDialogFragment inviteDialogFragment = InviteDialogFragment.getInstance();
+                inviteDialogFragment.setCancelable(true);
+                inviteDialogFragment.show(getChildFragmentManager(), "inviteDialogFragment");
                 break;
             default:
                 break;
@@ -174,7 +200,7 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
      * 删除逻辑
      */
     private void deleteVideo() {
-        if (index == 0){
+        if (index == 0) {
             mBtnDelete.setEnabled(false);
             return;
         }
@@ -202,8 +228,8 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
         sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = mRadioAdapter.getMyLiveList().size(), j =0 ; i > j; i--) {
-                    MyLiveList myLive = mRadioAdapter.getMyLiveList().get(i-1);
+                for (int i = mRadioAdapter.getMyLiveList().size(), j = 0; i > j; i--) {
+                    MyLiveList myLive = mRadioAdapter.getMyLiveList().get(i - 1);
                     if (myLive.isSelect()) {
 
                         mRadioAdapter.getMyLiveList().remove(myLive);
@@ -213,7 +239,7 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
                 index = 0;
                 mTvSelectNum.setText(String.valueOf(0));
                 setBtnBackground(index);
-                if (mRadioAdapter.getMyLiveList().size() == 0){
+                if (mRadioAdapter.getMyLiveList().size() == 0) {
                     mLlMycollectionBottomDialog.setVisibility(View.GONE);
                 }
                 mRadioAdapter.notifyDataSetChanged();
@@ -231,27 +257,25 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
 
     @Override
     public void onItemClickListener(int pos, List<MyLiveList> myLiveList) {
-        if (editorStatus) {
-            MyLiveList myLive = myLiveList.get(pos);
-            boolean isSelect = myLive.isSelect();
-            if (!isSelect) {
-                index++;
-                myLive.setSelect(true);
-                if (index == myLiveList.size()) {
-                    isSelectAll = true;
-                    mSelectAll.setText("取消全选");
-                }
-
-            } else {
-                myLive.setSelect(false);
-                index--;
-                isSelectAll = false;
-                mSelectAll.setText("全选");
+        MyLiveList myLive = myLiveList.get(pos);
+        boolean isSelect = myLive.isSelect();
+        if (!isSelect) {
+            index++;
+            myLive.setSelect(true);
+            if (index == myLiveList.size()) {
+                isSelectAll = true;
+                mSelectAll.setText("取消全选");
             }
-            setBtnBackground(index);
-            mTvSelectNum.setText(String.valueOf(index));
-            mRadioAdapter.notifyDataSetChanged();
+
+        } else {
+            myLive.setSelect(false);
+            index--;
+            isSelectAll = false;
+            mSelectAll.setText("全选");
         }
+        setBtnBackground(index);
+        mTvSelectNum.setText(String.valueOf(index));
+        mRadioAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -261,7 +285,7 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
         if (dialog != null) {
             WindowManager.LayoutParams wlp = dialog.getWindow().getAttributes();
             wlp.gravity = Gravity.BOTTOM | Gravity.RIGHT;
-            wlp.y = (int)getResources().getDimension(R.dimen.activity_shop_car_bottom);
+            wlp.y = (int) getResources().getDimension(R.dimen.activity_shop_car_bottom);
             DisplayMetrics dm = new DisplayMetrics();
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             dialog.getWindow().setLayout((int) (dm.widthPixels * 0.75), (int) (dm.widthPixels * 0.8));

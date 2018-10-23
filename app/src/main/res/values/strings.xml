@@ -7,5 +7,11 @@
     <string name="match">匹配度%1$s</string>
     <string name="invite_eat">邀请一起吃饭~</string>
     <string name="shop_car_title">人头购物车</string>
+    <string name="invite_title">请填写邀请信息</string>
+    <string name="confirm">确定</string>
+    <string name="time">时间</string>
+    <string name="place">地点</string>
+    <string name="input_time">请填写聚餐时间</string>
+    <string name="input_place">请填写聚餐地点</string>
 
 </resources>
