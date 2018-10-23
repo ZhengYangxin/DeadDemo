@@ -34,13 +34,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="org.zsq.activity.EnrollActivity"/>
         <activity
             android:name="org.zsq.activity.CameraActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
-        <activity android:name="org.zsq.activity.EnrollActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

@@ -9,6 +9,7 @@ import android.util.Log;
 
 
 import com.arcsoft.library.R;
+import com.arcsoft.library.database.module.Face;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,11 +20,11 @@ import java.io.InputStreamReader;
  * Created by Administrator on 2017/8/2.
  */
 
-public class FaceDataBaseHelp   extends SQLiteOpenHelper{
+public class FaceDataBaseHelp extends SQLiteOpenHelper{
 
     private static FaceDataBaseHelp instance;
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "face";
     private String createSQL;
     private Context context;
@@ -78,6 +79,7 @@ public class FaceDataBaseHelp   extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        String sql = "Alter table "+TABLE_FACE+" add column "+ Face.PHONE+" TEXT ";
+        db.execSQL(sql);
     }
 }
