@@ -16,11 +16,7 @@ import android.view.animation.Interpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
-import com.moos.library.CircleProgressView;
-
-import org.zsq.VO.InstanceResponseVO;
 import org.zsq.playcamera.R;
 
 import java.util.LinkedList;
@@ -32,7 +28,7 @@ import java.util.Vector;
  * <p>
  * Created by danke on 2018/10/23.
  */
-public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlobalLayoutListener {
+public class KeywordsFlowback extends FrameLayout implements ViewTreeObserver.OnGlobalLayoutListener {
 
     public static final int IDX_X = 0;
     public static final int IDX_Y = 1;
@@ -61,7 +57,7 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
     private static ScaleAnimation animScaleLarge2Normal, animScaleNormal2Large,
             animScaleZero2Normal, animScaleNormal2Zero;
     /** 存储显示的关键字。 */
-    private Vector<InstanceResponseVO> vecKeywords;
+    private Vector<String> vecKeywords;
     private int width, height;
     /**
      * go2Show()中被赋值为true，标识开发人员触发其开始动画显示。<br/>
@@ -78,17 +74,17 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
     /** 动画运行时间。 */
     private long animDuration;
     private Context context;
-    public KeywordsFlow(Context context) {
+    public KeywordsFlowback(Context context) {
         super(context);
         init();
     }
 
-    public KeywordsFlow(Context context, AttributeSet attrs) {
+    public KeywordsFlowback(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public KeywordsFlow(Context context, AttributeSet attrs, int defStyle) {
+    public KeywordsFlowback(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
@@ -97,7 +93,7 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
         lastStartAnimationTime = 0l;
         animDuration = ANIM_DURATION;
         random = new Random();
-        vecKeywords = new Vector<>(MAX);
+        vecKeywords = new Vector<String>(MAX);
         getViewTreeObserver().addOnGlobalLayoutListener(this);
         interpolator = AnimationUtils.loadInterpolator(getContext(),
                 android.R.anim.decelerate_interpolator);
@@ -117,7 +113,7 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
         animDuration = duration;
     }
 
-    public boolean feedKeyword(InstanceResponseVO keyword) {
+    public boolean feedKeyword(String keyword) {
         boolean result = false;
         if (vecKeywords.size() < MAX) {
             result = vecKeywords.add(keyword);
@@ -153,12 +149,12 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
     private void disapper() {
         int size = getChildCount();
         for (int i = size - 1; i >= 0; i--) {
-            final RecommandCircleView txv = (RecommandCircleView) getChildAt(i);
+            final CircleView txv = (CircleView) getChildAt(i);
             if (txv.getVisibility() == View.GONE) {
                 removeView(txv);
                 continue;
             }
-            FrameLayout.LayoutParams layParams = (LayoutParams) txv
+            LayoutParams layParams = (LayoutParams) txv
                     .getLayoutParams();
             int[] xy = new int[] { layParams.leftMargin, layParams.topMargin,
                     txv.getWidth() };
@@ -195,22 +191,31 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
                 listX.add(i * xItem);
                 listY.add(i * yItem + (yItem >> 2));
             }
-            LinkedList<RecommandCircleView> listTxtTop = new LinkedList<>();
-            LinkedList<RecommandCircleView> listTxtBottom = new LinkedList<>();
+            LinkedList<CircleView> listTxtTop = new LinkedList<CircleView>();
+            LinkedList<CircleView> listTxtBottom = new LinkedList<CircleView>();
             for (int i = 0; i < size; i++) {
-                InstanceResponseVO keyword = vecKeywords.get(i);
+                String keyword = vecKeywords.get(i);
                 // 随机位置，糙值
                 int xy[] = randomXY(random, listX, listY, xItem);
                 // 实例化TextView
-                final RecommandCircleView txv = new RecommandCircleView(getContext());
-//                txv.setBackgroundResource(R.drawable.text_view_border);
+                final CircleView txv = new CircleView(getContext());
+                txv.setBackgroundResource(R.drawable.text_view_border);
+                txv.setGravity(Gravity.CENTER);
                 txv.setOnClickListener(itemClickListener);
-                String key = keyword.getMenuInstanceInfo().getName();
-                txv.setText(key);
+                txv.setText(keyword);
                 txv.setTextColor(Color.WHITE);
+                txv.setPadding(5, 5, 5, 5);
+                txv.setSingleLine(true);
+                int r = random.nextInt(200);
+                int g= random.nextInt(200);
+                int b = random.nextInt(200);
+                int mColor = Color.rgb(r, g, b);
+                GradientDrawable myGrad = (GradientDrawable)txv.getBackground();
+                myGrad.setColor(mColor);
+                //	            txv.setBackgroundColor(mColor);
                 // 获取文本长度
                 Paint paint = txv.getPaint();
-                int strWidth = (int) Math.ceil(paint.measureText(key));
+                int strWidth = (int) Math.ceil(paint.measureText(keyword));
                 xy[IDX_TXT_LENGTH] = strWidth;
                 // 第一次修正:修正x坐标
                 if (xy[IDX_X] + strWidth > width - (xItem >> 1)) {
@@ -228,12 +233,6 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
                 } else {
                     listTxtTop.add(txv);
                 }
-                CircleProgressView progressView = txv.getProgressView();
-                RelativeLayout.LayoutParams linearParams = (RelativeLayout.LayoutParams) progressView.getLayoutParams();
-                linearParams.width = strWidth + 40;
-                linearParams.height = strWidth + 40;
-                progressView.setLayoutParams(linearParams);
-                progressView.setProgress(keyword.getRating() * 10);
             }
             attach2Screen(listTxtTop, xCenter, yCenter, yItem);
             attach2Screen(listTxtBottom, xCenter, yCenter, yItem);
@@ -243,12 +242,12 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
     }
 
     /** 修正TextView的Y坐标将将其添加到容器上。 */
-    private void attach2Screen(LinkedList<RecommandCircleView> listTxt, int xCenter,
+    private void attach2Screen(LinkedList<CircleView> listTxt, int xCenter,
                                int yCenter, int yItem) {
         int size = listTxt.size();
         sortXYList(listTxt, size);
         for (int i = 0; i < size; i++) {
-            RecommandCircleView txv = listTxt.get(i);
+            CircleView txv = listTxt.get(i);
             int[] iXY = (int[]) txv.getTag();
             // 第二次修正:修正y坐标
             int yDistance = iXY[IDX_Y] - yCenter;
@@ -284,9 +283,9 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
                 // 已经调整过前i个需要再次排序
                 sortXYList(listTxt, i + 1);
             }
-            FrameLayout.LayoutParams layParams = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT);
+            LayoutParams layParams = new LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT);
             layParams.gravity = Gravity.LEFT | Gravity.TOP;
             layParams.leftMargin = iXY[IDX_X];
             layParams.topMargin = iXY[IDX_Y];
@@ -342,13 +341,13 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
      *            待排序的数组。
      *
      */
-    private void sortXYList(LinkedList<RecommandCircleView> listTxt, int endIdx) {
+    private void sortXYList(LinkedList<CircleView> listTxt, int endIdx) {
         for (int i = 0; i < endIdx; i++) {
             for (int k = i + 1; k < endIdx; k++) {
                 if (((int[]) listTxt.get(k).getTag())[IDX_DIS_Y] < ((int[]) listTxt
                         .get(i).getTag())[IDX_DIS_Y]) {
-                    RecommandCircleView iTmp = listTxt.get(i);
-                    RecommandCircleView kTmp = listTxt.get(k);
+                    CircleView iTmp = listTxt.get(i);
+                    CircleView kTmp = listTxt.get(k);
                     listTxt.set(i, kTmp);
                     listTxt.set(k, iTmp);
                 }
@@ -390,7 +389,7 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
         }
     }
 
-    public Vector<InstanceResponseVO> getKeywords() {
+    public Vector<String> getKeywords() {
         return vecKeywords;
     }
 
