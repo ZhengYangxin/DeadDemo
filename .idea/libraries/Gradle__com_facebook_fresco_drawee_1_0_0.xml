@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.facebook.fresco:drawee-1.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/0a52d5ba748d227c37d620306bcc21e51d7e1a4f/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/0a52d5ba748d227c37d620306bcc21e51d7e1a4f/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

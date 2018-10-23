@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.facebook.fresco:animated-gif-1.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/f2fbb4742fedd818b520475836a2b65853deae1e/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/f2fbb4742fedd818b520475836a2b65853deae1e/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
