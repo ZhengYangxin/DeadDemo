@@ -4,8 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import org.zsq.fragment.ContentFragment;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +31,10 @@ public class ContentFragmentAdapter extends FragmentPagerAdapter {
         return fragments.size();
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return ((ContentFragment)fragments.get(position)).getTitle();
-    }
+//    @Override
+//    public CharSequence getPageTitle(int position) {
+//        return ((Fragment)fragments.get(position)).getTitle();
+//    }
 
     public static class Holder {
         private final List<Fragment> fragments = new ArrayList<>();

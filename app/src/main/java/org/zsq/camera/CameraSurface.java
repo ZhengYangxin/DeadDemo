@@ -133,7 +133,7 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
     /**
      * 释放相机资源
      */
-    public void releaseCamera() {
+    public boolean releaseCamera() {
         if (mCamera != null) {
             if (isPreview) {
                 mCamera.setPreviewCallback(null);
@@ -144,12 +144,13 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
                 isPreview = false;
             }
         }
+        return true;
     }
 
     /**
      * 打开相机
      */
-    private void openCamera() {
+    private boolean openCamera() {
         if (mCamera == null) {
             if (isUseFront) {
                 mCamera = Camera.open(1);
@@ -176,6 +177,7 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
                 startPreview();
             }
         }
+        return true;
     }
 
     /**
@@ -259,5 +261,21 @@ public class CameraSurface extends SurfaceView implements SurfaceHolder.Callback
 
     public void setCallback(CameraCallback callback) {
         this.callback = callback;
+    }
+
+    /**
+     * used for front and rear exchange.
+     *
+     * @return
+     */
+    public boolean resetCamera() {
+        if (releaseCamera()) {
+            if (openCamera()) {
+                rotateCamera();
+                return true;
+            }
+        }
+        Log.e("TAG", "resetCamera fail!");
+        return false;
     }
 }

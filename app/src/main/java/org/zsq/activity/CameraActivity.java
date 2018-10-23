@@ -1,6 +1,5 @@
 package org.zsq.activity;
 
-import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,13 +9,14 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
-import com.arcsoft.facedetection.AFD_FSDKFace;
 import com.arcsoft.library.FaceService;
 import com.arcsoft.library.module.ArcsoftFace;
 import com.arcsoft.library.module.FaceData;
@@ -25,20 +25,33 @@ import com.arcsoft.library.module.FaceResponse;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.zsq.adapter.ContentFragmentAdapter;
 import org.zsq.app.DemoApplication;
 import org.zsq.camera.CameraCallback;
 import org.zsq.camera.CameraSurface;
+import org.zsq.fragment.DishFragment;
+import org.zsq.fragment.PersonFragment;
 import org.zsq.playcamera.R;
 import org.zsq.util.DisplayUtil;
 import org.zsq.util.ImageUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import me.kaelaela.verticalviewpager.VerticalViewPager;
+import me.kaelaela.verticalviewpager.transforms.DefaultTransformer;
+
 /**
  * create by zsq
  */
-public class CameraActivity extends Activity implements CameraCallback {
+public class CameraActivity extends AppCompatActivity implements CameraCallback {
     private static final String TAG = "zsq";
-    CameraSurface surfaceView = null;
-    private SurfaceView surfaceViewRect = null;
+    @BindView(R.id.camera_surfaceview)
+    CameraSurface surfaceView;
+    @BindView(R.id.surfaceView)
+    SurfaceView surfaceViewRect;
+    @BindView(R.id.vertical_viewpager)
+    VerticalViewPager verticalViewpager;
     private SurfaceHolder surfaceHolder = null;
     private Paint m_Paint = null;
     private int m_nScreenWidth, m_nScreenHeight;
@@ -47,14 +60,37 @@ public class CameraActivity extends Activity implements CameraCallback {
     private long time = 0;
     private long detectionTime = 5000l;
 
+    private boolean isFront = true;
+
+    private DishFragment dishFragment;
+    private PersonFragment personFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        ButterKnife.bind(this);
         faceService = ((DemoApplication) getApplication()).getFaceService();
         initUI();
         init();
+        initViewPager();
+    }
+
+    private void initViewPager() {
+        dishFragment = DishFragment.newInstance();
+        personFragment = PersonFragment.newInstance();
+//        viewPager.setPageTransformer(true, new ZoomOutTransformer());
+//        viewPager.setPageTransformer(false, new StackTransformer());
+        verticalViewpager.setPageTransformer(true, new DefaultTransformer());
+
+        String title = "ContentFragment";
+        verticalViewpager.setAdapter(new ContentFragmentAdapter.Holder(getSupportFragmentManager())
+                .add(dishFragment)
+                .add(personFragment)
+                .set());
+        //If you setting other scroll mode, the scrolled fade is shown from either side of display.
+        verticalViewpager.setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override
@@ -96,15 +132,21 @@ public class CameraActivity extends Activity implements CameraCallback {
         return true;
     }
 
+    @OnClick(R.id.btn_image)
+    void changeRotate() {
+        clearUI();
+        isFront = !isFront;
+        surfaceView.setUseFront(isFront);
+        surfaceView.resetCamera();
+    }
+
 
     private void initUI() {
-        surfaceView = (CameraSurface) findViewById(R.id.camera_surfaceview);
         //shutterBtn = (ImageButton)findViewById(R.id.btn_shutter);
         surfaceView.setCallback(this);
 
         //设置为后置摄像头
-        surfaceView.setUseFront(true);
-        surfaceViewRect = (SurfaceView) findViewById(R.id.surfaceView);
+        surfaceView.setUseFront(isFront);
 
         surfaceViewRect.setZOrderOnTop(true);
 
@@ -131,9 +173,10 @@ public class CameraActivity extends Activity implements CameraCallback {
                     r = ImageUtil.rotateRact(r, orientation, m_nScreenHeight, m_nScreenWidth);
                     Log.e("Tag", "faceArea2=" + r.left + ", " + r.top + ", " + r.right + ", " + r.bottom);
                     canvas.drawRect(r, m_Paint);
+                    canvas.drawText("" + score, r.left, r.top - 20, m_Paint);
+                    canvas.drawText(name, r.left, r.top - 60, m_Paint);
                     if (score > 0.5) {
-                        canvas.drawText("" + score, r.left, r.top - 20, m_Paint);
-                        canvas.drawText(name, r.left, r.top - 60, m_Paint);
+
                     }
                 }
             } catch (Exception Ex) {
@@ -255,7 +298,5 @@ public class CameraActivity extends Activity implements CameraCallback {
 
         }
     }
-
-    ;
 
 }
