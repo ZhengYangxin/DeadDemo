@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/largeLabel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,9 +14,15 @@
             <!--android:id="@+id/keywordsflow"-->
             <!--android:layout_width="fill_parent"-->
             <!--android:layout_height="fill_parent"/>-->
-        <Button
-            android:id="@+id/btn"
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:background="#000"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:clipChildren="false"
+            android:overScrollMode="never"
+            android:visibility="visible" />
+    </RelativeLayout>
 </LinearLayout>

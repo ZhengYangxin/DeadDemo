@@ -27,7 +27,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:label,android:theme,android:icon">
-        <activity android:name="org.zsq.activity.HomeActivity">
+        <activity android:name="org.zsq.activity.DankeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -33,6 +33,7 @@ import org.zsq.util.NetworkUtils;
 import org.zsq.view.CustomPopupWindow;
 import org.zsq.view.ICustomIPopupWindow;
 import org.zsq.view.ProgressBox;
+import org.zsq.view.popupwindow.ProductPopup;
 
 import java.io.File;
 
@@ -56,9 +57,6 @@ public class HomeActivity extends BaseActivity {
     NavigationView navigationView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.btn_get)
-    Button buttonGet;
-    private ProgressBox progressBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,32 +67,13 @@ public class HomeActivity extends BaseActivity {
         titleString = "主页";
 
         showItem();
-
-        final TextView txt_get = (TextView) findViewById(R.id.tv_get);
-        progressBox = new ProgressBox(this, drawerLayout);
-        buttonGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //                NetworkUtils.get(progressBox,"http://10.1.130.61:8080/user/1", String.class, new NetworkUtils.CallBackListen<String>() {
-                //                    @Override
-                //                    public void onResponse(String data) {
-                //                        txt_get.setText(data);
-                //                    }
-                //
-                //                    @Override
-                //                    public void onErrorResponse(VolleyError volleyError) {
-                //
-                //                    }
-                //                });
-            }
-        });
     }
 
     @OnClick(R.id.btn_shop_car)
     void shopCar() {
-        ShopCarDialogFragment shopCarDialogFragment = ShopCarDialogFragment.getInstance();
-        shopCarDialogFragment.setCancelable(true);
-        shopCarDialogFragment.show(getSupportFragmentManager(), "shopCar");
+        // 购买商品弹出框
+        ProductPopup mProductPopup = new ProductPopup(this);
+        mProductPopup.showPopupWindow();
     }
 
     private void showItem() {
