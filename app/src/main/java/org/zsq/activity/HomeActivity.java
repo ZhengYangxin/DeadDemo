@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import org.apmem.tools.layouts.FlowLayout;
 import org.zsq.fragment.ShopCarDialogFragment;
 import org.zsq.playcamera.R;
 import org.zsq.util.NetworkUtils;
+import org.zsq.view.ProgressBox;
 
 import java.io.File;
 
@@ -52,6 +54,7 @@ public class HomeActivity extends BaseActivity {
     NavigationView navigationView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    private ProgressBox progressBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,11 +68,11 @@ public class HomeActivity extends BaseActivity {
 
         final TextView txt_get = (TextView) findViewById(R.id.tv_get);
         Button button = (Button) findViewById(R.id.btn_get);
+        progressBox = new ProgressBox(this, drawerLayout);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NetworkUtils.get("http://10.1.130.61:8080/user/1", String.class, new NetworkUtils.CallBackListen<String>() {
-
+                NetworkUtils.get(progressBox,"http://10.1.130.61:8080/user/1", String.class, new NetworkUtils.CallBackListen<String>() {
                     @Override
                     public void onResponse(String data) {
                         txt_get.setText(data);
