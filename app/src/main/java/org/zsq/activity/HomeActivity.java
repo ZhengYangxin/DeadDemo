@@ -11,16 +11,19 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
 import com.arcsoft.library.database.module.Face;
 import com.squareup.picasso.Picasso;
 
 import org.apmem.tools.layouts.FlowLayout;
 import org.zsq.playcamera.R;
+import org.zsq.util.NetworkUtils;
 
 import java.io.File;
 
@@ -38,6 +41,26 @@ public class HomeActivity extends BaseActivity {
         iconList = (FlowLayout) findViewById(R.id.thingsGridContainer);
         titleString = "主页";
         showItem();
+
+        final TextView txt_get = (TextView) findViewById(R.id.tv_get);
+        Button button = (Button) findViewById(R.id.btn_get);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NetworkUtils.get("http://www.baidu.com", String.class, new NetworkUtils.CallBackListen<String>() {
+
+                    @Override
+                    public void onResponse(String data) {
+                        txt_get.setText(data);
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                });
+            }
+        });
     }
 
     private void showItem() {

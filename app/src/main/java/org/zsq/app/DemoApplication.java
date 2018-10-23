@@ -13,6 +13,7 @@ import com.bilibili.boxing.loader.IBoxingMediaLoader;
 
 import org.zsq.imagloader.BoxingFrescoLoader;
 import org.zsq.imagloader.BoxingUcrop;
+import org.zsq.util.NetworkUtils;
 
 /**
  * Created by zsq on 16/5/22.
@@ -39,6 +40,7 @@ public class DemoApplication extends Application {
         BoxingMediaLoader.getInstance().init(loader);
         BoxingCrop.getInstance().init(new BoxingUcrop());
         bindService(new Intent(getApplicationContext(), FaceService.class),connection,BIND_AUTO_CREATE);
+        NetworkUtils.init(getApplicationContext());
     }
 
     public FaceService getFaceService() {
