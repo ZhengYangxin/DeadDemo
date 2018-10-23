@@ -3,6 +3,7 @@ package org.zsq.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +32,8 @@ import org.apmem.tools.layouts.FlowLayout;
 import org.zsq.fragment.ShopCarDialogFragment;
 import org.zsq.playcamera.R;
 import org.zsq.util.NetworkUtils;
+import org.zsq.view.CustomPopupWindow;
+import org.zsq.view.ICustomIPopupWindow;
 import org.zsq.view.ProgressBox;
 
 import java.io.File;
@@ -54,6 +58,8 @@ public class HomeActivity extends BaseActivity {
     NavigationView navigationView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    @BindView(R.id.btn_get)
+    Button buttonGet;
     private ProgressBox progressBox;
 
     @Override
@@ -67,22 +73,21 @@ public class HomeActivity extends BaseActivity {
         showItem();
 
         final TextView txt_get = (TextView) findViewById(R.id.tv_get);
-        Button button = (Button) findViewById(R.id.btn_get);
         progressBox = new ProgressBox(this, drawerLayout);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonGet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NetworkUtils.get(progressBox,"http://10.1.130.61:8080/user/1", String.class, new NetworkUtils.CallBackListen<String>() {
-                    @Override
-                    public void onResponse(String data) {
-                        txt_get.setText(data);
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
-
-                    }
-                });
+                //                NetworkUtils.get(progressBox,"http://10.1.130.61:8080/user/1", String.class, new NetworkUtils.CallBackListen<String>() {
+                //                    @Override
+                //                    public void onResponse(String data) {
+                //                        txt_get.setText(data);
+                //                    }
+                //
+                //                    @Override
+                //                    public void onErrorResponse(VolleyError volleyError) {
+                //
+                //                    }
+                //                });
             }
         });
     }

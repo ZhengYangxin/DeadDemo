@@ -7,29 +7,13 @@
     <LinearLayout
         android:id="@+id/largeLabel"
         android:layout_width="match_parent"
-        android:background="@android:color/background_dark"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:layout_below="@+id/btn"
-            android:id="@+id/day_night_view"
-            android:background="@color/blue_btn_bg_color"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="horizontal" />
-
-        <app.dinus.com.loadingdrawable.LoadingView
-            android:id="@+id/day_night_view1"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_below="@+id/txt_info"
-            android:layout_weight="1"
-            app:loading_renderer="DayNightLoadingRenderer" />
+        <org.zsq.view.cloudtag.KeywordsFlow
+            android:id="@+id/keywordsflow"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>
