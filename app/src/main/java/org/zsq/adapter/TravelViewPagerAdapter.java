@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import com.qslll.library.ExpandingViewPagerAdapter;
 
 import org.zsq.VO.Travel;
+import org.zsq.VO.UserResponseVO;
 import org.zsq.fragment.TravelExpandingFragment;
 
 import java.util.ArrayList;
@@ -16,21 +17,21 @@ import java.util.List;
  */
 public class TravelViewPagerAdapter extends ExpandingViewPagerAdapter {
 
-    List<Travel> travels;
+    List<UserResponseVO> travels;
 
     public TravelViewPagerAdapter(FragmentManager fm) {
         super(fm);
         travels = new ArrayList<>();
     }
 
-    public void addAll(List<Travel> travels){
+    public void addAll(List<UserResponseVO> travels){
         this.travels.addAll(travels);
         notifyDataSetChanged();
     }
 
     @Override
     public Fragment getItem(int position) {
-        Travel travel = travels.get(position);
+        UserResponseVO travel = travels.get(position);
         return TravelExpandingFragment.newInstance(travel);
     }
 

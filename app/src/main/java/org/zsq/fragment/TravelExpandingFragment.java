@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import com.qslll.library.fragments.ExpandingFragment;
 
 import org.zsq.VO.Travel;
+import org.zsq.VO.UserResponseVO;
 
 /**
  * this is control fragment , Top and Bottom is child in it.
@@ -16,9 +17,9 @@ import org.zsq.VO.Travel;
 public class TravelExpandingFragment extends ExpandingFragment {
 
     static final String ARG_TRAVEL = "ARG_TRAVEL";
-    Travel travel;
+    UserResponseVO travel;
 
-    public static TravelExpandingFragment newInstance(Travel travel){
+    public static TravelExpandingFragment newInstance(UserResponseVO travel){
         TravelExpandingFragment fragment = new TravelExpandingFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_TRAVEL, travel);

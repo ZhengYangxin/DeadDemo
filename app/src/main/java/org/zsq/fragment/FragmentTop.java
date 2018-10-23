@@ -1,33 +1,32 @@
 package org.zsq.fragment;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.devspark.robototextview.widget.RobotoTextView;
+import com.squareup.picasso.Picasso;
 
-import org.zsq.VO.Travel;
-import org.zsq.activity.InfoActivity;
+import org.zsq.VO.UserResponseVO;
 import org.zsq.playcamera.R;
+
+import java.io.File;
 
 public class FragmentTop extends Fragment {
 
     static final String ARG_TRAVEL = "ARG_TRAVEL";
-    Travel travel;
+    UserResponseVO travel;
 //    @BindView(R.id.image)
     ImageView image;
 //    @BindView(R.id.title)
     RobotoTextView title;
 
-    public static FragmentTop newInstance(Travel travel) {
+    public static FragmentTop newInstance(UserResponseVO travel) {
         Bundle args = new Bundle();
         FragmentTop fragmentTop = new FragmentTop();
         args.putParcelable(ARG_TRAVEL, travel);
@@ -56,21 +55,12 @@ public class FragmentTop extends Fragment {
         image = (ImageView) view.findViewById(R.id.image);
         title = (RobotoTextView) view.findViewById(R.id.title);
         if (travel != null) {
-            image.setImageResource(travel.getImage());
-            title.setText(travel.getName());
+            UserResponseVO.UserInfoBean userInfo = travel.getUserInfo();
+            String url = userInfo.getHeadImg();
+            Picasso.with(getContext()).load(url).into(image);
+            title.setText(userInfo.getName());
         }
 
-    }
-
-    @SuppressWarnings("unchecked")
-    private void startInfoActivity(View view, Travel travel) {
-        FragmentActivity activity = getActivity();
-        ActivityCompat.startActivity(activity,
-                InfoActivity.newInstance(activity, travel),
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity,
-                        new Pair<>(view, "transition_image"))
-                        .toBundle());
     }
 
     @Override

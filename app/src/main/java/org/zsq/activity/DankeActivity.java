@@ -67,7 +67,7 @@ public class DankeActivity extends AppCompatActivity implements ExpandingFragmen
         setupWindowAnimations();
 
         TravelViewPagerAdapter adapter = new TravelViewPagerAdapter(getSupportFragmentManager());
-        adapter.addAll(generateTravelList());
+//        adapter.addAll(generateTravelList());
         viewPager.setAdapter(adapter);
 
 
@@ -117,23 +117,10 @@ public class DankeActivity extends AppCompatActivity implements ExpandingFragmen
         }
         return travels;
     }
-    @SuppressWarnings("unchecked")
-    private void startInfoActivity(View view, Travel travel) {
-        Activity activity = this;
-        ActivityCompat.startActivity(activity,
-                InfoActivity.newInstance(activity, travel),
-                ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        activity,
-                        new Pair<>(view, "transition_image"))
-                        .toBundle());
-    }
 
     @Override
     public void onExpandingClick(View v) {
         //v is expandingfragment layout
-        View view = v.findViewById(R.id.image);
-        Travel travel = generateTravelList().get(viewPager.getCurrentItem());
-        startInfoActivity(view,travel);
     }
 
     private void refreshTags() {

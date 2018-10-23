@@ -27,7 +27,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:label,android:theme,android:icon">
-        <activity android:name="org.zsq.activity.DankeActivity">
+        <activity android:name="org.zsq.activity.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,9 +40,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
         </activity>
-        <activity android:name="org.zsq.activity.EnrollActivity">
-
-        </activity>
+        <activity android:name="org.zsq.activity.EnrollActivity"></activity>
 
         <provider
             android:name="android.support.v4.content.FileProvider"

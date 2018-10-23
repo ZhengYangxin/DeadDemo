@@ -9,6 +9,7 @@ import android.graphics.PorterDuff.Mode;
 import android.graphics.Rect;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +22,8 @@ import com.arcsoft.library.FaceService;
 import com.arcsoft.library.module.ArcsoftFace;
 import com.arcsoft.library.module.FaceData;
 import com.arcsoft.library.module.FaceResponse;
+import com.qslll.library.ExpandingPagerFactory;
+import com.qslll.library.fragments.ExpandingFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,6 +37,7 @@ import org.zsq.fragment.PersonFragment;
 import org.zsq.playcamera.R;
 import org.zsq.util.DisplayUtil;
 import org.zsq.util.ImageUtil;
+import org.zsq.view.popupwindow.ProductPopup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +48,7 @@ import me.kaelaela.verticalviewpager.transforms.DefaultTransformer;
 /**
  * create by zsq
  */
-public class CameraActivity extends AppCompatActivity implements CameraCallback {
+public class CameraActivity extends AppCompatActivity implements CameraCallback, ExpandingFragment.OnExpandingClickListener{
     private static final String TAG = "zsq";
     @BindView(R.id.camera_surfaceview)
     CameraSurface surfaceView;
@@ -91,6 +95,13 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback 
                 .set());
         //If you setting other scroll mode, the scrolled fade is shown from either side of display.
         verticalViewpager.setOverScrollMode(View.OVER_SCROLL_NEVER);
+    }
+
+    @OnClick(R.id.btn_shop_car)
+    void shopCar() {
+        // 购买商品弹出框
+        ProductPopup mProductPopup = new ProductPopup(this);
+        mProductPopup.showPopupWindow();
     }
 
     @Override
@@ -299,4 +310,11 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback 
         }
     }
 
+    @Override
+    public void onExpandingClick(View v) {
+        ViewPager viewPager = personFragment.getViewPager();
+        if (viewPager != null) {
+            ExpandingPagerFactory.onBackPressed(viewPager);
+        }
+    }
 }

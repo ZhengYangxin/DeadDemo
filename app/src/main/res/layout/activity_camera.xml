@@ -45,6 +45,17 @@
 		android:src="@android:drawable/ic_popup_sync"
 		android:layout_gravity="right" />
 
+	<android.support.design.widget.FloatingActionButton
+		android:id="@+id/btn_shop_car"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:src="@drawable/ic_shop_car"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+		android:layout_marginBottom="@dimen/activity_float_margin"
+		android:layout_marginRight="@dimen/activity_horizontal_margin"
+		app:backgroundTint="@color/colorAccent"/>
+
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
