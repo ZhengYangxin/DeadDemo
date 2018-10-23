@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.moos.library.CircleProgressView
+        android:id="@+id/progressView_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:start_progress="0"
+        app:end_progress="60"
+        app:start_color="@color/purple_end"
+        app:end_color="@color/purple_start"
+        app:circleBroken="true"
+        app:isTracked="true"
+        app:track_width="26dp"/>
+
+    <org.zsq.view.cloudtag.CircleView
+        android:id="@+id/txt_circle"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

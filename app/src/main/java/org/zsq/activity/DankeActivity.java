@@ -1,6 +1,7 @@
 package org.zsq.activity;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
 import com.android.volley.VolleyError;
+import com.moos.library.CircleProgressView;
 
 import org.zsq.VO.InstanceResponseVO;
 import org.zsq.playcamera.R;
@@ -38,7 +40,7 @@ public class DankeActivity extends Activity {
     LinearLayout largeLabel;
     @BindView(R.id.keywordsflow)
     KeywordsFlow keywordsFlow;
-    private String[] keywords;
+    private InstanceResponseVO[] keywords;
     private ProgressBox progressBox;
 
     @Override
@@ -71,21 +73,14 @@ public class DankeActivity extends Activity {
         t.schedule(new TimerTask() {
             @Override
             public void run() {
+//                keywords = new String[]{"danke", "didi", "outa"};
+//                feedKeywordsFlow(keywordsFlow, keywords);
+//                keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
                 Log.d("danke", "定时任务");
                 NetworkUtils.get(progressBox, ConfigUrl.GET_INSTANCES, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(DankeActivity.this) {
                     @Override
                     public void onResponse(List<InstanceResponseVO> data) {
-                        List<String> list = new ArrayList<>();
-                        if (data != null && !data.isEmpty()) {
-                            for (InstanceResponseVO instanceResponseVO : data) {
-                                InstanceResponseVO.MenuInstanceInfoBean menuInstanceInfo = instanceResponseVO.getMenuInstanceInfo();
-                                if (menuInstanceInfo != null) {
-                                    list.add(menuInstanceInfo.getName());
-                                    Log.d("danke", menuInstanceInfo.getName());
-                                }
-                            }
-                        }
-                        keywords = list.toArray(new String[list.size()]);
+                        keywords = data.toArray(new InstanceResponseVO[data.size()]);
                         // 添加
                         keywordsFlow.rubKeywords();
                         feedKeywordsFlow(keywordsFlow, keywords);
@@ -102,10 +97,10 @@ public class DankeActivity extends Activity {
         }, 0,5 * 1000);
     }
 
-    private static void feedKeywordsFlow(KeywordsFlow keywordsFlow, String[] arr) {
+    private static void feedKeywordsFlow(KeywordsFlow keywordsFlow, InstanceResponseVO[] arr) {
         if (arr != null && arr.length > 0) {
             for (int i = 0; i < arr.length; i++) {
-                String tmp = arr[i];
+                InstanceResponseVO tmp = arr[i];
                 keywordsFlow.feedKeyword(tmp);
             }
         }

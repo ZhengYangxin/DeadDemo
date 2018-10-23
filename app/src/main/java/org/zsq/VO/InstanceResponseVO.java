@@ -8,7 +8,7 @@ package org.zsq.VO;
 public class InstanceResponseVO {
 
     private MenuInstanceInfoBean menuInstanceInfo;
-    private double rating;
+    private float rating;
 
     public MenuInstanceInfoBean getMenuInstanceInfo() {
         return menuInstanceInfo;
@@ -18,11 +18,11 @@ public class InstanceResponseVO {
         this.menuInstanceInfo = menuInstanceInfo;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
