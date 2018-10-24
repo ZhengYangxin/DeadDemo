@@ -8,11 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
 
 import org.zsq.VO.InstanceResponseVO;
+import org.zsq.VO.UserInfoBeanVO;
+import org.zsq.activity.DankeActivity;
 import org.zsq.playcamera.R;
 import org.zsq.util.BaseCallBackListen;
 import org.zsq.util.ConfigUrl;
@@ -21,6 +24,8 @@ import org.zsq.view.ProgressBox;
 import org.zsq.view.cloudtag.KeywordsFlow;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,7 +40,7 @@ import butterknife.Unbinder;
 public class DishFragment extends Fragment {
 
     @BindView(R.id.largeLabel)
-    LinearLayout largeLabel;
+    RelativeLayout largeLabel;
     @BindView(R.id.keywordsflow)
     KeywordsFlow keywordsFlow;
     private InstanceResponseVO[] keywords = new InstanceResponseVO[10];
@@ -59,12 +64,13 @@ public class DishFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         refreshTags();
         progressBox = new ProgressBox(getActivity(), largeLabel);
+        getData();
         return view;
     }
 
     private void refreshTags() {
 //        initSearchHistory();
-        keywordsFlow.setDuration(1500l);
+        keywordsFlow.setDuration(800l);
         keywordsFlow.setOnItemClickListener(new View.OnClickListener() {
 
             @Override
@@ -84,24 +90,12 @@ public class DishFragment extends Fragment {
     /**
      * 读取历史搜索记录
      */
-    public void initSearchHistory() {
-        Log.d("danke", "定时任务");
-        synchronized (keywords) {
-            if (tempPhone.equals(ConfigUrl.param)) {
-                // 添加
-                keywordsFlow.rubKeywords();
-                keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
-                tempPhone = "";
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-////                        keywordsFlow.rubKeywords();
-//                        feedKeywordsFlow(keywordsFlow, keywords);
-//                        keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
-//                    }
-//                });
-
-            } else {
+    public void getData() {
+        final Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Log.d("danke", "定时任务");
                 NetworkUtils.get(progressBox, ConfigUrl.GET_INSTANCES + ConfigUrl.param, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(getActivity()) {
                     @Override
                     public void onResponse(List<InstanceResponseVO> data) {
@@ -110,32 +104,16 @@ public class DishFragment extends Fragment {
                         keywordsFlow.rubKeywords();
                         feedKeywordsFlow(keywordsFlow, keywords);
                         keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
-                        tempPhone = ConfigUrl.param;
                     }
 
                     @Override
                     public void onErrorResponse(String error) {
                         super.onErrorResponse(error);
-                        if (keywordsFlow != null) {
-                            keywordsFlow.rubKeywords();
-                        }
+                        keywordsFlow.rubKeywords();
                     }
                 });
             }
-        }
-
-        /*progressBox = new ProgressBox(getActivity(), largeLabel);
-        final Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-//                keywords = new String[]{"danke", "didi", "outa"};
-//                feedKeywordsFlow(keywordsFlow, keywords);
-//                keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
-
-
-            }
-        }, 0,10 * 1000);*/
+        }, 0,5 * 1000);
     }
 
     private static void feedKeywordsFlow(KeywordsFlow keywordsFlow, InstanceResponseVO[] arr) {

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 
 import com.qslll.library.fragments.ExpandingFragment;
 
-import org.zsq.VO.Travel;
 import org.zsq.VO.UserResponseVO;
 
 /**

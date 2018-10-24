@@ -150,6 +150,10 @@ public class KeywordsFlow extends FrameLayout implements ViewTreeObserver.OnGlob
         return false;
     }
 
+    public long getLastStartAnimationTime() {
+        return lastStartAnimationTime;
+    }
+
     private void disapper() {
         int size = getChildCount();
         for (int i = size - 1; i >= 0; i--) {

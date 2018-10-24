@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import com.devspark.robototextview.widget.RobotoTextView;
 import com.squareup.picasso.Picasso;
 
+import org.zsq.VO.UserInfoBeanVO;
 import org.zsq.VO.UserResponseVO;
 import org.zsq.playcamera.R;
 
@@ -55,7 +56,7 @@ public class FragmentTop extends Fragment {
         image = (ImageView) view.findViewById(R.id.image);
         title = (RobotoTextView) view.findViewById(R.id.title);
         if (travel != null) {
-            UserResponseVO.UserInfoBean userInfo = travel.getUserInfo();
+            UserInfoBeanVO userInfo = travel.getUserInfo();
             String url = userInfo.getHeadImg();
             Picasso.with(getContext()).load(url).into(image);
             title.setText(userInfo.getName());

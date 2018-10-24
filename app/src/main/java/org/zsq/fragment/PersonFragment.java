@@ -10,6 +10,7 @@ import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
@@ -43,7 +44,10 @@ public class PersonFragment extends Fragment {
     TextView notify;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.largeLabel)
+    RelativeLayout largeLabel;
     private TravelViewPagerAdapter adapter;
+    private ProgressBox progressBox;
 
     public PersonFragment() {
     }
@@ -60,6 +64,8 @@ public class PersonFragment extends Fragment {
 //        initToolbar(view);
         unbinder = ButterKnife.bind(this, view);
         initRecyclerView(view);
+        progressBox = new ProgressBox(getActivity(), largeLabel);
+        getData();
         return view;
     }
 
@@ -94,8 +100,6 @@ public class PersonFragment extends Fragment {
     }
 
     public void getData() {
-        ProgressBox progressBox = new ProgressBox(getActivity(), viewPager);
-
         NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + ConfigUrl.param, new TypeReference<List<UserResponseVO>>(){}.getType(), new BaseCallBackListen<List<UserResponseVO>>(getActivity()) {
             @Override
             public void onResponse(List<UserResponseVO> data) {
