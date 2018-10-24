@@ -6,6 +6,7 @@ package org.zsq.util;
  * Created by danke on 2018/10/23.
  */
 public class ConfigUrl {
+    public static String param = "";
     public static String GET_USERS = "http://10.1.130.61:8080/recommend/users/";
     public static String GET_INSTANCES = "http://10.1.130.61:8080/recommend/instances/";
     public static String GET_REGISTER = "http://10.1.130.61:8080/user/mobile/";

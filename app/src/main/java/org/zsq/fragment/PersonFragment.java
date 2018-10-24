@@ -1,14 +1,10 @@
 package org.zsq.fragment;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.transition.Explode;
 import android.util.Log;
@@ -77,7 +73,7 @@ public class PersonFragment extends Fragment {
 
         adapter = new TravelViewPagerAdapter(getActivity().getSupportFragmentManager());
         ProgressBox progressBox = new ProgressBox(getActivity(), viewPager);
-        NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + "15957099656", new TypeReference<List<UserResponseVO>>(){}.getType(), new BaseCallBackListen<List<UserResponseVO>>(getActivity()) {
+        NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + ConfigUrl.param, new TypeReference<List<UserResponseVO>>(){}.getType(), new BaseCallBackListen<List<UserResponseVO>>(getActivity()) {
             @Override
             public void onResponse(List<UserResponseVO> data) {
                 adapter.addAll(data);

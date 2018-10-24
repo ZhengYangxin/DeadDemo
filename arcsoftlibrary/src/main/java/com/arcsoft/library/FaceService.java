@@ -111,7 +111,9 @@ public class FaceService extends Service {
                         } else {
                             float  mScore = manager.match(feature, face);
                             if(mScore > thresholdValue){
-                                EventBus.getDefault().post(new FaceResponse(0, FaceResponse.FaceType.MATCH, mScore, afd_fsdkFace, face.getName(), data.getOrientation()));
+                                FaceResponse faceResponse = new FaceResponse(0, FaceResponse.FaceType.MATCH, mScore, afd_fsdkFace, face.getName(), data.getOrientation());
+                                faceResponse.setPhone(face.getPhone());
+                                EventBus.getDefault().post(faceResponse);
                             }
                         }
                         i++;

@@ -1,8 +1,5 @@
 package com.arcsoft.library.module;
 
-import com.arcsoft.facedetection.AFD_FSDKFace;
-import com.arcsoft.facetracking.AFT_FSDKFace;
-
 import java.util.List;
 
 /**
@@ -24,6 +21,7 @@ public class FaceResponse<T extends  ArcsoftFace> {
     private T face;
     private String name;
     private int orientation;
+    private String phone;
 
     public FaceResponse(int code, FaceType type) {
         this.code = code;
@@ -115,5 +113,13 @@ public class FaceResponse<T extends  ArcsoftFace> {
 
     public void setOrientation(int orientation) {
         this.orientation = orientation;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
