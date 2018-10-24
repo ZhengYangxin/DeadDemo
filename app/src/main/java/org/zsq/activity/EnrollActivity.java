@@ -144,6 +144,23 @@ public class EnrollActivity extends BaseActivity {
         }
     };
 
+    @Override
+    public void showLoading(final String title, final String msg){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(dialog == null){
+                    dialog = new SweetAlertDialog(EnrollActivity.this,SweetAlertDialog.PROGRESS_TYPE);
+                }else {
+                    dialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+                }
+                dialog.setCancelable(false);
+                dialog.setTitleText(title).setContentText(msg).show();
+            }
+        });
+    }
+
+
 
 
     @Override
@@ -204,7 +221,7 @@ public class EnrollActivity extends BaseActivity {
                 NetworkUtils.get(progressBox, ConfigUrl.GET_REGISTER + phone, RegisterVo.class, new BaseCallBackListen<RegisterVo>(this) {
                     @Override
                     public void onResponse(RegisterVo data) {
-
+                        showSuccess("成功","");
                     }
 
                     @Override
@@ -212,7 +229,6 @@ public class EnrollActivity extends BaseActivity {
                         super.onErrorResponse(error);
                     }
                 });
-                showSuccess("成功","");
             }
         }
     };

@@ -36,5 +36,5 @@
         android:layout_marginRight="80dp"
         android:layout_marginBottom="16dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/logo" />
+        android:src="@drawable/team_name" />
 </LinearLayout>

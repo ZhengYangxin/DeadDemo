@@ -3,7 +3,6 @@ package org.zsq.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -16,23 +15,16 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.VolleyError;
 import com.arcsoft.library.database.module.Face;
 import com.squareup.picasso.Picasso;
 
 import org.apmem.tools.layouts.FlowLayout;
-import org.zsq.dialog.ShopCarDialogFragment;
 import org.zsq.playcamera.R;
-import org.zsq.util.NetworkUtils;
-import org.zsq.view.CustomPopupWindow;
-import org.zsq.view.ICustomIPopupWindow;
-import org.zsq.view.ProgressBox;
 import org.zsq.view.popupwindow.ProductPopup;
 
 import java.io.File;
@@ -64,7 +56,7 @@ public class HomeActivity extends BaseActivity {
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         iconList = (FlowLayout) findViewById(R.id.thingsGridContainer);
-        titleString = "主页";
+        titleString = "首页";
 
         showItem();
     }

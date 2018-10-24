@@ -42,7 +42,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginBottom="@dimen/activity_float_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                app:backgroundTint="@color/colorAccent"/>
+                app:backgroundTint="@color/colorAccent"
+                android:visibility="gone"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -63,6 +64,6 @@
         android:background="@color/drawer_color"
         app:itemIconTint="@color/drawer_item_Icon_tint"
         app:itemTextColor="@color/drawer_item_text_color"
-        android:layout_gravity="start"/>
+        android:layout_gravity="start" />
 
 </android.support.v4.widget.DrawerLayout>
