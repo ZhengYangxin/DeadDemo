@@ -1,46 +1,26 @@
 package org.zsq.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.transition.Explode;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.alibaba.fastjson.TypeReference;
 import com.qslll.library.ExpandingPagerFactory;
 import com.qslll.library.fragments.ExpandingFragment;
 
 import org.zsq.VO.InstanceResponseVO;
-import org.zsq.VO.Travel;
 import org.zsq.adapter.TravelViewPagerAdapter;
 import org.zsq.playcamera.R;
-import org.zsq.util.BaseCallBackListen;
-import org.zsq.util.ConfigUrl;
-import org.zsq.util.NetworkUtils;
 import org.zsq.view.ProgressBox;
-import org.zsq.view.cloudtag.KeywordsFlow;
-import org.zsq.view.popupwindow.BasePopupWindow;
-import org.zsq.view.popupwindow.ProductPopup;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * 功能：
@@ -105,17 +85,6 @@ public class DankeActivity extends AppCompatActivity implements ExpandingFragmen
         Explode slideTransition = new Explode();
         getWindow().setReenterTransition(slideTransition);
         getWindow().setExitTransition(slideTransition);
-    }
-
-    private List<Travel> generateTravelList(){
-        List<Travel> travels = new ArrayList<>();
-        for(int i=0;i<5;++i){
-            travels.add(new Travel("Seychelles", R.drawable.seychelles));
-            travels.add(new Travel("Shang Hai", R.drawable.seychelles));
-            travels.add(new Travel("New York", R.drawable.seychelles));
-            travels.add(new Travel("castle", R.drawable.seychelles));
-        }
-        return travels;
     }
 
     @Override

@@ -10,6 +10,7 @@ public class ConfigUrl {
     public static String GET_USERS = "http://10.1.130.61:8080/recommend/users/";
     public static String GET_INSTANCES = "http://10.1.130.61:8080/recommend/instances/";
     public static String GET_REGISTER = "http://10.1.130.61:8080/user/mobile/";
+    public static String GET_USER = "http://10.1.130.61:8080/user/mobile/";
 
 
 }

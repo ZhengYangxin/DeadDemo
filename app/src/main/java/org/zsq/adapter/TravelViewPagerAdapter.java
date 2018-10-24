@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 
 import com.qslll.library.ExpandingViewPagerAdapter;
 
-import org.zsq.VO.Travel;
 import org.zsq.VO.UserResponseVO;
 import org.zsq.fragment.TravelExpandingFragment;
 

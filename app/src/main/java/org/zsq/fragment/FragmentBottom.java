@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
+import org.zsq.VO.UserInfoBeanVO;
 import org.zsq.VO.UserResponseVO;
 import org.zsq.event.AddShopCarEvent;
 import org.zsq.playcamera.R;
@@ -59,7 +60,7 @@ public class FragmentBottom extends Fragment {
         View view = inflater.inflate(R.layout.fragment_bottom, container, false);
         unbinder = ButterKnife.bind(this, view);
 
-        UserResponseVO.UserInfoBean userInfo = travel.getUserInfo();
+        UserInfoBeanVO userInfo = travel.getUserInfo();
         tvName.setText("平台规则：邀请10个人全场5折，8个人全场7折，6个人全场9折");
         String mobile = userInfo.getMobile().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
         tvPhone.setText(mobile);
