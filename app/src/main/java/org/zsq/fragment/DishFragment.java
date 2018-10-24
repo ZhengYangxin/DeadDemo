@@ -38,7 +38,7 @@ public class DishFragment extends Fragment {
     LinearLayout largeLabel;
     @BindView(R.id.keywordsflow)
     KeywordsFlow keywordsFlow;
-    private InstanceResponseVO[] keywords;
+    private InstanceResponseVO[] keywords = new InstanceResponseVO[10];
     private ProgressBox progressBox;
     Unbinder unbinder;
 

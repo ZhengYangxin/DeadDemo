@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.transition.Explode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +17,16 @@ import com.alibaba.fastjson.TypeReference;
 import com.qslll.library.ExpandingPagerFactory;
 import com.qslll.library.fragments.ExpandingFragment;
 
+import org.zsq.VO.InstanceResponseVO;
 import org.zsq.VO.Travel;
 import org.zsq.VO.UserResponseVO;
 import org.zsq.adapter.TravelViewPagerAdapter;
 import org.zsq.playcamera.R;
+import org.zsq.util.BaseCallBackListen;
 import org.zsq.util.ConfigUrl;
 import org.zsq.util.NetworkUtils;
 import org.zsq.view.ProgressBox;
+import org.zsq.view.cloudtag.KeywordsFlow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +73,7 @@ public class PersonFragment extends Fragment {
 
         adapter = new TravelViewPagerAdapter(getActivity().getSupportFragmentManager());
         ProgressBox progressBox = new ProgressBox(getActivity(), viewPager);
-        ConfigUrl.param = "15957099656";
-        NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + ConfigUrl.param, new TypeReference<List<UserResponseVO>>() {
-        }.getType(), new NetworkUtils.CallBackListen<List<UserResponseVO>>() {
+        NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + ConfigUrl.param, new TypeReference<List<UserResponseVO>>(){}.getType(), new BaseCallBackListen<List<UserResponseVO>>(getActivity()) {
             @Override
             public void onResponse(List<UserResponseVO> data) {
                 adapter.addAll(data);
@@ -79,7 +81,7 @@ public class PersonFragment extends Fragment {
 
             @Override
             public void onErrorResponse(String error) {
-
+                super.onErrorResponse(error);
             }
         });
         viewPager.setAdapter(adapter);
@@ -120,17 +122,6 @@ public class PersonFragment extends Fragment {
         Explode slideTransition = new Explode();
         getActivity().getWindow().setReenterTransition(slideTransition);
         getActivity().getWindow().setExitTransition(slideTransition);
-    }
-
-    private List<Travel> generateTravelList(){
-        List<Travel> travels = new ArrayList<>();
-        for(int i=0;i<5;++i){
-            travels.add(new Travel("Seychelles", R.drawable.seychelles));
-            travels.add(new Travel("Shang Hai", R.drawable.seychelles));
-            travels.add(new Travel("New York", R.drawable.seychelles));
-            travels.add(new Travel("castle", R.drawable.seychelles));
-        }
-        return travels;
     }
 
     public String getTitle() {

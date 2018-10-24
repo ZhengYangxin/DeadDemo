@@ -20,7 +20,11 @@ public class UserResponseVO implements Parcelable {
     private UserInfoBean userInfo;
     private double rating;
 
-    protected UserResponseVO(Parcel in) {
+    public UserResponseVO() {
+
+    }
+
+    public UserResponseVO(Parcel in) {
         userInfo = (UserInfoBean) in.readValue(UserInfoBean.class.getClassLoader());
         rating = in.readDouble();
     }
