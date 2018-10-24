@@ -7,10 +7,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.moos.library.CircleProgressView;
 
@@ -50,8 +47,8 @@ public class RecommandCircleView extends RelativeLayout {
 
         // CircleProgressView
         circleProgressView.setStartProgress(0);
-        circleProgressView.setStartColor(Color.parseColor("#FF8F5D"));
-        circleProgressView.setEndColor(Color.parseColor("#F54EA2"));
+        circleProgressView.setStartColor(Color.parseColor("#E78162"));
+        circleProgressView.setEndColor(Color.parseColor("#F18A50"));
         circleProgressView.setCircleBroken(true);
         circleProgressView.setTrackWidth(0);
         circleProgressView.setProgressDuration(2000);
@@ -67,9 +64,9 @@ public class RecommandCircleView extends RelativeLayout {
         txtCircle.setTextColor(Color.WHITE);
         txtCircle.setPadding(5, 5, 5, 5);
         txtCircle.setSingleLine(true);
-        int r = random.nextInt(200);
-        int g= random.nextInt(200);
-        int b = random.nextInt(200);
+        int r = random.nextInt(100);
+        int g= random.nextInt(100);
+        int b = random.nextInt(100);
         int mColor = Color.rgb(r, g, b);
         GradientDrawable myGrad = (GradientDrawable)txtCircle.getBackground();
         myGrad.setColor(mColor);

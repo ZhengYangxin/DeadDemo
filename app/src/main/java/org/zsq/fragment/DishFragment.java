@@ -58,7 +58,7 @@ public class DishFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_dish, container, false);
         unbinder = ButterKnife.bind(this, view);
         refreshTags();
-
+        progressBox = new ProgressBox(getActivity(), largeLabel);
         return view;
     }
 
@@ -87,17 +87,19 @@ public class DishFragment extends Fragment {
     public void initSearchHistory() {
         Log.d("danke", "定时任务");
         synchronized (keywords) {
-            keywordsFlow.rubKeywords();
             if (tempPhone.equals(ConfigUrl.param)) {
                 // 添加
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-//                    keywordsFlow.rubKeywords();
-                        feedKeywordsFlow(keywordsFlow, keywords);
-                        keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
-                    }
-                });
+                keywordsFlow.rubKeywords();
+                keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
+                tempPhone = "";
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+////                        keywordsFlow.rubKeywords();
+//                        feedKeywordsFlow(keywordsFlow, keywords);
+//                        keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
+//                    }
+//                });
 
             } else {
                 NetworkUtils.get(progressBox, ConfigUrl.GET_INSTANCES + ConfigUrl.param, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(getActivity()) {
