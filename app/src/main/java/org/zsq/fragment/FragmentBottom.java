@@ -1,7 +1,6 @@
 package org.zsq.fragment;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,13 +11,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
 import org.zsq.VO.UserResponseVO;
+import org.zsq.event.AddShopCarEvent;
 import org.zsq.playcamera.R;
-import org.zsq.view.popupwindow.ProductPopup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static org.zsq.fragment.FragmentTop.ARG_TRAVEL;
@@ -64,14 +63,17 @@ public class FragmentBottom extends Fragment {
         tvName.setText("平台规则：邀请10个人全场5折，8个人全场7折，6个人全场9折");
         String mobile = userInfo.getMobile().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
         tvPhone.setText(mobile);
-        btnInvite.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                EventBus.getDefault().postSticky(new AddShopCarEvent(travel));
                 Toast.makeText(getContext(), "加入人头购物车成功！", Toast.LENGTH_SHORT).show();
             }
         });
         return view;
     }
+
+
 
     @Override
     public void onDestroyView() {

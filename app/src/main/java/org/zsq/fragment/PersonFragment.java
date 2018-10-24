@@ -67,7 +67,7 @@ public class PersonFragment extends Fragment {
         setupWindowAnimations();
 
         adapter = new TravelViewPagerAdapter(getActivity().getSupportFragmentManager());
-//        getData();
+        getData();
         viewPager.setAdapter(adapter);
 
 
@@ -95,7 +95,7 @@ public class PersonFragment extends Fragment {
 
     public void getData() {
         ProgressBox progressBox = new ProgressBox(getActivity(), viewPager);
-
+        ConfigUrl.param = "13429526009";
         NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + ConfigUrl.param, new TypeReference<List<UserResponseVO>>(){}.getType(), new BaseCallBackListen<List<UserResponseVO>>(getActivity()) {
             @Override
             public void onResponse(List<UserResponseVO> data) {

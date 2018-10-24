@@ -79,7 +79,10 @@ public class FaceDataBaseHelp extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql = "Alter table "+TABLE_FACE+" add column "+ Face.PHONE+" TEXT ";
-        db.execSQL(sql);
+        if (oldVersion <= 2) {
+            String sql = "Alter table "+TABLE_FACE+" add column "+ Face.PHONE+" TEXT ";
+            db.execSQL(sql);
+        }
+
     }
 }
