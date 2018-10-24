@@ -190,6 +190,7 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback,
                     if (score > 0.6) {
                         ConfigUrl.param = phone;
                         dishFragment.initSearchHistory();
+                        personFragment.getData();
                     }
                 }
             } catch (Exception Ex) {
