@@ -35,6 +35,7 @@ import org.zsq.camera.CameraSurface;
 import org.zsq.fragment.DishFragment;
 import org.zsq.fragment.PersonFragment;
 import org.zsq.playcamera.R;
+import org.zsq.util.ConfigUrl;
 import org.zsq.util.DisplayUtil;
 import org.zsq.util.ImageUtil;
 import org.zsq.view.popupwindow.ProductPopup;
@@ -172,7 +173,7 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback,
         m_Paint.setTextSize(40);
     }
 
-    public void faceOut(ArcsoftFace result, float score, String name, int orientation) {
+    public void faceOut(ArcsoftFace result, float score, String name, int orientation, String phone) {
         if (result != null) {
             Canvas canvas = null;
             try {
@@ -187,6 +188,7 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback,
                     canvas.drawText("" + score, r.left, r.top - 20, m_Paint);
                     canvas.drawText(name, r.left, r.top - 60, m_Paint);
                     if (score > 0.6) {
+                        ConfigUrl.param = phone;
                         dishFragment.initSearchHistory();
                     }
                 }
@@ -302,7 +304,7 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback,
                 }
                 case MATCH: {
                     Log.e("TAG", "match : " + event.getScore());
-                    faceOut(event.getFace(), event.getScore(), event.getName(), event.getOrientation());
+                    faceOut(event.getFace(), event.getScore(), event.getName(), event.getOrientation(), event.getPhone());
                     break;
                 }
             }

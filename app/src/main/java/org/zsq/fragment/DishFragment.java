@@ -21,8 +21,6 @@ import org.zsq.view.ProgressBox;
 import org.zsq.view.cloudtag.KeywordsFlow;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,6 +41,8 @@ public class DishFragment extends Fragment {
     private InstanceResponseVO[] keywords;
     private ProgressBox progressBox;
     Unbinder unbinder;
+
+    private String tempPhone = "";
 
     public DishFragment() {
     }
@@ -85,16 +85,22 @@ public class DishFragment extends Fragment {
      * 读取历史搜索记录
      */
     public void initSearchHistory() {
-        progressBox = new ProgressBox(getActivity(), largeLabel);
-        final Timer t = new Timer();
-        t.schedule(new TimerTask() {
-            @Override
-            public void run() {
-//                keywords = new String[]{"danke", "didi", "outa"};
-//                feedKeywordsFlow(keywordsFlow, keywords);
-//                keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
-                Log.d("danke", "定时任务");
-                NetworkUtils.get(progressBox, ConfigUrl.GET_INSTANCES, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(getActivity()) {
+        Log.d("danke", "定时任务");
+        synchronized (keywords) {
+            keywordsFlow.rubKeywords();
+            if (tempPhone.equals(ConfigUrl.param)) {
+                // 添加
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+//                    keywordsFlow.rubKeywords();
+                        feedKeywordsFlow(keywordsFlow, keywords);
+                        keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
+                    }
+                });
+
+            } else {
+                NetworkUtils.get(progressBox, ConfigUrl.GET_INSTANCES + ConfigUrl.param, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(getActivity()) {
                     @Override
                     public void onResponse(List<InstanceResponseVO> data) {
                         keywords = data.toArray(new InstanceResponseVO[data.size()]);
@@ -102,16 +108,32 @@ public class DishFragment extends Fragment {
                         keywordsFlow.rubKeywords();
                         feedKeywordsFlow(keywordsFlow, keywords);
                         keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
+                        tempPhone = ConfigUrl.param;
                     }
 
                     @Override
                     public void onErrorResponse(String error) {
                         super.onErrorResponse(error);
-                        keywordsFlow.rubKeywords();
+                        if (keywordsFlow != null) {
+                            keywordsFlow.rubKeywords();
+                        }
                     }
                 });
             }
-        }, 0,5 * 1000);
+        }
+
+        /*progressBox = new ProgressBox(getActivity(), largeLabel);
+        final Timer t = new Timer();
+        t.schedule(new TimerTask() {
+            @Override
+            public void run() {
+//                keywords = new String[]{"danke", "didi", "outa"};
+//                feedKeywordsFlow(keywordsFlow, keywords);
+//                keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
+
+
+            }
+        }, 0,10 * 1000);*/
     }
 
     private static void feedKeywordsFlow(KeywordsFlow keywordsFlow, InstanceResponseVO[] arr) {
