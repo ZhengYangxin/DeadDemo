@@ -7,15 +7,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.TypeReference;
 
 import org.zsq.VO.InstanceResponseVO;
-import org.zsq.VO.UserInfoBeanVO;
-import org.zsq.activity.DankeActivity;
+import org.zsq.app.DemoApplication;
 import org.zsq.playcamera.R;
 import org.zsq.util.BaseCallBackListen;
 import org.zsq.util.ConfigUrl;
@@ -96,20 +94,24 @@ public class DishFragment extends Fragment {
             @Override
             public void run() {
                 Log.d("danke", "定时任务");
-                NetworkUtils.get(progressBox, ConfigUrl.GET_INSTANCES + ConfigUrl.param, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(getActivity()) {
+                NetworkUtils.get(progressBox, ConfigUrl.GET_INSTANCES + ConfigUrl.param, new TypeReference<List<InstanceResponseVO>>(){}.getType(), new BaseCallBackListen<List<InstanceResponseVO>>(DemoApplication.getAppContext()) {
                     @Override
                     public void onResponse(List<InstanceResponseVO> data) {
                         keywords = data.toArray(new InstanceResponseVO[data.size()]);
                         // 添加
-                        keywordsFlow.rubKeywords();
-                        feedKeywordsFlow(keywordsFlow, keywords);
-                        keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
+                        if (keywordsFlow != null) {
+                            keywordsFlow.rubKeywords();
+                            feedKeywordsFlow(keywordsFlow, keywords);
+                            keywordsFlow.go2Show(KeywordsFlow.ANIMATION_OUT);
+                        }
                     }
 
                     @Override
                     public void onErrorResponse(String error) {
                         super.onErrorResponse(error);
-                        keywordsFlow.rubKeywords();
+                        if (keywordsFlow != null) {
+                            keywordsFlow.rubKeywords();
+                        }
                     }
                 });
             }

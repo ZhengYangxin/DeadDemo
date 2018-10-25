@@ -34,7 +34,6 @@ import org.zsq.camera.CameraSurface;
 import org.zsq.playcamera.R;
 import org.zsq.util.DisplayUtil;
 import org.zsq.util.ImageUtil;
-import org.zsq.view.popupwindow.ProductPopup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,13 +67,6 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback 
         faceService = ((DemoApplication) getApplication()).getFaceService();
         initUI();
         init();
-    }
-
-    @OnClick(R.id.btn_shop_car)
-    void shopCar() {
-        // 购买商品弹出框
-        ProductPopup mProductPopup = new ProductPopup(this);
-        mProductPopup.showPopupWindow();
     }
 
     @Override
@@ -161,6 +153,7 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback 
                     canvas.drawText(name, r.left, r.top - 60, m_Paint);
                     if (score > 0.6) {
                         startInfoActivity(surfaceView, phone);
+                        finish();
                     }
                 }
             } catch (Exception Ex) {
@@ -266,7 +259,9 @@ public class CameraActivity extends AppCompatActivity implements CameraCallback 
 
     private void start(byte[] data, int width, int height, int orientation) {
 //        EventBus.getDefault().post(new FaceData(data, width, height, orientation));
-        faceService.cameraRecognize(new FaceData(data, width, height, orientation));
+        if (faceService != null) {
+            faceService.cameraRecognize(new FaceData(data, width, height, orientation));
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

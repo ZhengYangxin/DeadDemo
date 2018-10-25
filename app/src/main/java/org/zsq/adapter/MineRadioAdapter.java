@@ -9,8 +9,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import org.zsq.VO.UserInfoBeanVO;
+import org.zsq.VO.UserResponseVO;
 import org.zsq.playcamera.R;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,15 +36,18 @@ public class MineRadioAdapter extends RecyclerView.Adapter<MineRadioAdapter.View
     private int secret = 0;
     private String title = "";
     private Context context;
-    private List<MyLiveList> mMyLiveList;
+    private List<UserResponseVO> mMyLiveList;
     private OnItemClickListener mOnItemClickListener;
+    DecimalFormat df;
 
     public MineRadioAdapter(Context context) {
         this.context = context;
+         df = new DecimalFormat("0.0");
+
     }
 
 
-    public void notifyAdapter(List<MyLiveList> myLiveList, boolean isAdd) {
+    public void notifyAdapter(List<UserResponseVO> myLiveList, boolean isAdd) {
         if (!isAdd) {
             this.mMyLiveList = myLiveList;
         } else {
@@ -48,7 +56,7 @@ public class MineRadioAdapter extends RecyclerView.Adapter<MineRadioAdapter.View
         notifyDataSetChanged();
     }
 
-    public List<MyLiveList> getMyLiveList() {
+    public List<UserResponseVO> getMyLiveList() {
         if (mMyLiveList == null) {
             mMyLiveList = new ArrayList<>();
         }
@@ -69,33 +77,39 @@ public class MineRadioAdapter extends RecyclerView.Adapter<MineRadioAdapter.View
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final MyLiveList myLive = mMyLiveList.get(holder.getAdapterPosition());
-        holder.mTvName.setText(myLive.getTitle());
-        holder.mTvMatch.setText(myLive.getSource());
-        if (mEditMode == MYLIVE_MODE_CHECK) {
-            holder.mCheckBox.setVisibility(View.GONE);
-        } else {
-            holder.mCheckBox.setVisibility(View.VISIBLE);
-
-            if (myLive.isSelect()) {
-                holder.mCheckBox.setImageResource(R.drawable.ic_checked);
+        final UserResponseVO userResponseVO = mMyLiveList.get(holder.getAdapterPosition());
+        final UserInfoBeanVO userInfoBeanVO = userResponseVO.getUserInfo();
+        final double rating = userResponseVO.getRating();
+        if (userInfoBeanVO != null) {
+            holder.mTvName.setText(userInfoBeanVO.getName());
+            holder.mTvMatch.setText(String.format(context.getString(R.string.match), df.format(rating) + "%"));
+            Picasso.with(context).load(userInfoBeanVO.getHeadImg()).into(holder.mHead);
+            if (mEditMode == MYLIVE_MODE_CHECK) {
+                holder.mCheckBox.setVisibility(View.GONE);
             } else {
-                holder.mCheckBox.setImageResource(R.drawable.ic_uncheck);
+                holder.mCheckBox.setVisibility(View.VISIBLE);
+
+                if (userResponseVO.isSelect()) {
+                    holder.mCheckBox.setImageResource(R.drawable.ic_checked);
+                } else {
+                    holder.mCheckBox.setImageResource(R.drawable.ic_uncheck);
+                }
             }
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mMyLiveList);
+                }
+            });
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnItemClickListener.onItemClickListener(holder.getAdapterPosition(), mMyLiveList);
-            }
-        });
+
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
     public interface OnItemClickListener {
-        void onItemClickListener(int pos,List<MyLiveList> myLiveList);
+        void onItemClickListener(int pos,List<UserResponseVO> myLiveList);
     }
     public void setEditMode(int editMode) {
         mEditMode = editMode;

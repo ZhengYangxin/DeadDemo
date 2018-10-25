@@ -218,7 +218,7 @@ public class EnrollActivity extends BaseActivity {
             Log.e("Tag","成功：" + event.getType());
             if(event.getType() == FaceResponse.FaceType.RECOGNITION){
                 String phone = phoneEditText.getText().toString();
-                NetworkUtils.get(progressBox, ConfigUrl.GET_REGISTER + phone, RegisterVo.class, new BaseCallBackListen<RegisterVo>(this) {
+                NetworkUtils.get(progressBox, ConfigUrl.GET_REGISTER + phone, RegisterVo.class, new BaseCallBackListen<RegisterVo>(DemoApplication.getAppContext()) {
                     @Override
                     public void onResponse(RegisterVo data) {
                         showSuccess("成功","");

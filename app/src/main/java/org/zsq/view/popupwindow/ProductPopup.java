@@ -2,7 +2,6 @@ package org.zsq.view.popupwindow;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,11 +11,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+import org.zsq.VO.UserInfoBeanVO;
+import org.zsq.VO.UserResponseVO;
 import org.zsq.adapter.DividerItemDecoration;
 import org.zsq.adapter.MineRadioAdapter;
-import org.zsq.adapter.MyLiveList;
+import org.zsq.app.DemoApplication;
 import org.zsq.dialog.InviteDialogFragment;
+import org.zsq.event.AddShopCarEvent;
 import org.zsq.playcamera.R;
 import org.zsq.util.UIUtil;
 
@@ -51,10 +57,11 @@ public class ProductPopup extends SlideFromBottomPopup implements View.OnClickLi
 
     private MineRadioAdapter mRadioAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    private List<MyLiveList> mList;
     private boolean isSelectAll = false;
     private int mEditMode = MYLIVE_MODE_EDIT;
     private int index = 0;
+
+    private List<UserResponseVO> userResponseVOS;
 
     public ProductPopup(Activity context) {
         super(context);
@@ -66,7 +73,7 @@ public class ProductPopup extends SlideFromBottomPopup implements View.OnClickLi
         ButterKnife.bind(this, inflate);
         // 固定listView的高度，防止重复执行getView
 //        listView.getLayoutParams().height = mPopupView.getLayoutParams().height;
-
+        EventBus.getDefault().register(this);
         initData();
         initListener();
         return inflate;
@@ -83,15 +90,38 @@ public class ProductPopup extends SlideFromBottomPopup implements View.OnClickLi
         mEditMode = MYLIVE_MODE_EDIT;
         mRadioAdapter.setEditMode(mEditMode);
         mRecyclerview.setAdapter(mRadioAdapter);
-        mList = new ArrayList<>();
-        for (int i = 0; i < 30; i++) {
-            MyLiveList myLiveList = new MyLiveList();
-            myLiveList.setTitle("这是第" + i + "个条目");
-            myLiveList.setSource("来源" + i);
-            mList.add(myLiveList);
-            mRadioAdapter.notifyAdapter(mList, false);
-        }
+        userResponseVOS = new ArrayList<>();
+//        initUserData();
+        mRadioAdapter.notifyAdapter(userResponseVOS, false);
+
         //        updataEditMode();
+    }
+
+    public void initUserData() {
+        if(mRadioAdapter != null && (userResponseVOS == null || userResponseVOS.isEmpty())) {
+            userResponseVOS = new ArrayList<>();
+            UserResponseVO userResponseVO0 = new UserResponseVO();
+            userResponseVO0.setRating(100);
+
+            UserInfoBeanVO userInfoBeanVO0 = new UserInfoBeanVO();
+            userInfoBeanVO0.setName("海桐");
+            userInfoBeanVO0.setMobile("18267721127");
+            userInfoBeanVO0.setHeadImg("http://ph2p7uakt.bkt.clouddn.com/c.png");
+            userResponseVO0.setUserInfo(userInfoBeanVO0);
+            userResponseVOS.add(userResponseVO0);
+
+            UserResponseVO userResponseVO1 = new UserResponseVO();
+            userResponseVO1.setRating(28.172904669025318);
+
+            UserInfoBeanVO userInfoBeanVO1 = new UserInfoBeanVO();
+            userInfoBeanVO1.setName("火烧");
+            userInfoBeanVO1.setMobile("18667132302");
+            userInfoBeanVO1.setHeadImg("http://ph2p7uakt.bkt.clouddn.com/h.png");
+            userResponseVO1.setUserInfo(userInfoBeanVO1);
+            userResponseVOS.add(userResponseVO1);
+            mRadioAdapter.notifyAdapter(userResponseVOS, false);
+        }
+
     }
 
     private void updataEditMode() {
@@ -214,7 +244,7 @@ public class ProductPopup extends SlideFromBottomPopup implements View.OnClickLi
             @Override
             public void onClick(View v) {
                 for (int i = mRadioAdapter.getMyLiveList().size(), j = 0; i > j; i--) {
-                    MyLiveList myLive = mRadioAdapter.getMyLiveList().get(i - 1);
+                    UserResponseVO myLive = mRadioAdapter.getMyLiveList().get(i - 1);
                     if (myLive.isSelect()) {
 
                         mRadioAdapter.getMyLiveList().remove(myLive);
@@ -241,8 +271,8 @@ public class ProductPopup extends SlideFromBottomPopup implements View.OnClickLi
     }
 
     @Override
-    public void onItemClickListener(int pos, List<MyLiveList> myLiveList) {
-        MyLiveList myLive = myLiveList.get(pos);
+    public void onItemClickListener(int pos, List<UserResponseVO> myLiveList) {
+        UserResponseVO myLive = myLiveList.get(pos);
         boolean isSelect = myLive.isSelect();
         if (!isSelect) {
             index++;
@@ -263,4 +293,23 @@ public class ProductPopup extends SlideFromBottomPopup implements View.OnClickLi
         mRadioAdapter.notifyDataSetChanged();
     }
 
+
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(AddShopCarEvent event) {
+        if (userResponseVOS == null) {
+            userResponseVOS = new ArrayList<>();
+        }
+        if (event != null && !userResponseVOS.contains(event.getUserResponseVO())) {
+            userResponseVOS.add(event.getUserResponseVO());
+            Toast.makeText(DemoApplication.getAppContext(), "加入人头购物车成功！", Toast.LENGTH_SHORT).show();
+        }
+        mRadioAdapter.notifyAdapter(userResponseVOS, false);
+    };
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.zsq.VO.UserResponseVO;
 import org.zsq.adapter.DividerItemDecoration;
 import org.zsq.adapter.MineRadioAdapter;
 import org.zsq.adapter.MyLiveList;
@@ -98,14 +99,14 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
         mLlMycollectionBottomDialog.setVisibility(View.VISIBLE);
         mRadioAdapter.setEditMode(mEditMode);
 
-        mRecyclerview.setAdapter(mRadioAdapter);
-        for (int i = 0; i < 30; i++) {
-            MyLiveList myLiveList = new MyLiveList();
-            myLiveList.setTitle("这是第" + i + "个条目");
-            myLiveList.setSource("来源" + i);
-            mList.add(myLiveList);
-            mRadioAdapter.notifyAdapter(mList, false);
-        }
+//        mRecyclerview.setAdapter(mRadioAdapter);
+//        for (int i = 0; i < 30; i++) {
+//            MyLiveList myLiveList = new MyLiveList();
+//            myLiveList.setTitle("这是第" + i + "个条目");
+//            myLiveList.setSource("来源" + i);
+//            mList.add(myLiveList);
+//            mRadioAdapter.notifyAdapter(mList, false);
+//        }
 //        updataEditMode();
     }
 
@@ -229,7 +230,7 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
             @Override
             public void onClick(View v) {
                 for (int i = mRadioAdapter.getMyLiveList().size(), j = 0; i > j; i--) {
-                    MyLiveList myLive = mRadioAdapter.getMyLiveList().get(i - 1);
+                    UserResponseVO myLive = mRadioAdapter.getMyLiveList().get(i - 1);
                     if (myLive.isSelect()) {
 
                         mRadioAdapter.getMyLiveList().remove(myLive);
@@ -256,8 +257,8 @@ public class ShopCarDialogFragment extends DialogFragment implements View.OnClic
     }
 
     @Override
-    public void onItemClickListener(int pos, List<MyLiveList> myLiveList) {
-        MyLiveList myLive = myLiveList.get(pos);
+    public void onItemClickListener(int pos, List<UserResponseVO> myLiveList) {
+        UserResponseVO myLive = myLiveList.get(pos);
         boolean isSelect = myLive.isSelect();
         if (!isSelect) {
             index++;

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.zsq.VO.UserInfoBeanVO;
@@ -67,8 +66,7 @@ public class FragmentBottom extends Fragment {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().postSticky(new AddShopCarEvent(travel));
-                Toast.makeText(getContext(), "加入人头购物车成功！", Toast.LENGTH_SHORT).show();
+                EventBus.getDefault().post(new AddShopCarEvent(travel));
             }
         });
         return view;

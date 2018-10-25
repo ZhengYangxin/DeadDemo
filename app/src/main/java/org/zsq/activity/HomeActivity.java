@@ -25,7 +25,6 @@ import com.squareup.picasso.Picasso;
 
 import org.apmem.tools.layouts.FlowLayout;
 import org.zsq.playcamera.R;
-import org.zsq.view.popupwindow.ProductPopup;
 
 import java.io.File;
 
@@ -64,8 +63,8 @@ public class HomeActivity extends BaseActivity {
     @OnClick(R.id.btn_shop_car)
     void shopCar() {
         // 购买商品弹出框
-        ProductPopup mProductPopup = new ProductPopup(this);
-        mProductPopup.showPopupWindow();
+//        ProductPopup mProductPopup = new ProductPopup(this);
+//        mProductPopup.showPopupWindow();
     }
 
     private void showItem() {

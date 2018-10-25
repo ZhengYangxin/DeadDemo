@@ -17,6 +17,7 @@ public class UserResponseVO implements Parcelable {
 
     private UserInfoBeanVO userInfo;
     private double rating;
+    public boolean isSelect;
 
     public UserResponseVO() {
 
@@ -41,6 +42,14 @@ public class UserResponseVO implements Parcelable {
 
     public void setRating(double rating) {
         this.rating = rating;
+    }
+
+    public boolean isSelect() {
+        return isSelect;
+    }
+
+    public void setSelect(boolean select) {
+        isSelect = select;
     }
 
     public static final Creator<UserResponseVO> CREATOR = new Creator<UserResponseVO>() {

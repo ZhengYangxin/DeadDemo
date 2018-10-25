@@ -19,6 +19,7 @@ import com.qslll.library.fragments.ExpandingFragment;
 
 import org.zsq.VO.UserResponseVO;
 import org.zsq.adapter.TravelViewPagerAdapter;
+import org.zsq.app.DemoApplication;
 import org.zsq.playcamera.R;
 import org.zsq.util.BaseCallBackListen;
 import org.zsq.util.ConfigUrl;
@@ -102,7 +103,7 @@ public class PersonFragment extends Fragment {
     public void getData() {
         ProgressBox progressBox = new ProgressBox(getActivity(), viewPager);
         ConfigUrl.param = "13429526009";
-        NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + ConfigUrl.param, new TypeReference<List<UserResponseVO>>(){}.getType(), new BaseCallBackListen<List<UserResponseVO>>(getActivity()) {
+        NetworkUtils.get(progressBox, ConfigUrl.GET_USERS + ConfigUrl.param, new TypeReference<List<UserResponseVO>>(){}.getType(), new BaseCallBackListen<List<UserResponseVO>>(DemoApplication.getAppContext()) {
             @Override
             public void onResponse(List<UserResponseVO> data) {
                 adapter.addAll(data);
